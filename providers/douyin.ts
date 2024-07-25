@@ -60,6 +60,11 @@ export default function Douyin<P extends DouyinProfile>(
     },
     token: {
       url: `${baseUrl}/oauth/access_token`,
+      params: {
+        grant_type: "authorization_code",
+        client_key: options.clientId!,
+        client_secret: options.clientSecret!,
+      },
       async request({ params, provider }: any) {
         const res = await fetch(`${baseUrl}/oauth/access_token`, {
           method: "POST",
@@ -90,6 +95,7 @@ export default function Douyin<P extends DouyinProfile>(
       },
       async conform(res: Response) {
         console.log("conform res:", res);
+        res.headers.forEach(console.log);
       },
     },
 
