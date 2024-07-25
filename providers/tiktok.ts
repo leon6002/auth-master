@@ -195,7 +195,7 @@ export interface TiktokProfile extends Record<string, any> {
  */
 export default function TikTok<P extends TiktokProfile>(
   options: OAuthUserConfig<P>,
-): OAuthConfig<P> {
+): any {
   return {
     id: "tiktok",
     name: "TikTok",
@@ -249,7 +249,7 @@ export default function TikTok<P extends TiktokProfile>(
         }).then(async (res) => await res.json());
       },
     },
-    profile(profile) {
+    profile(profile: any) {
       return {
         id: profile.data.user.open_id,
         name: profile.data.user.display_name,
