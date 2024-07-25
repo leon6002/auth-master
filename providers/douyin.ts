@@ -1,4 +1,4 @@
-export default function GitHub(config: any): any {
+export default function Douyin(config: any): any {
   const baseUrl = config?.enterprise?.baseUrl ?? "https://open.douyin.com";
   const apiBaseUrl = config?.enterprise?.baseUrl
     ? `${config?.enterprise?.baseUrl}`
@@ -13,9 +13,33 @@ export default function GitHub(config: any): any {
       params: { scope: "trial.whitelist", client_key: config.clientId },
     },
     token: {
-      url: `${baseUrl}/oauth/access_token`,
-      params: {
-        grant_type: "authorization_code",
+      async request({ params, provider }: any) {
+        const res = await fetch(`${baseUrl}/oauth/access_token`, {
+          method: "POST",
+          headers: {
+            "Cache-Control": "no-cache",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            client_key: provider.clientId!,
+            client_secret: provider.clientSecret!,
+            code: params.code!,
+            grant_type: "authorization_code",
+            redirect_uri: provider.callbackUrl!,
+          }),
+        }).then((res) => res.json());
+        console.log("access_token: ", res);
+        const tokens: any = {
+          access_token: res.access_token,
+          expires_at: res.expires_in,
+          refresh_token: res.refresh_token,
+          scope: res.scope,
+          id_token: res.open_id,
+          session_state: res.open_id,
+        };
+        return {
+          tokens,
+        };
       },
     },
     userinfo: {

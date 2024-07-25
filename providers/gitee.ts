@@ -1,4 +1,4 @@
-export default function GitHub(config: any): any {
+export default function Gitee(config: any): any {
   const baseUrl = config?.enterprise?.baseUrl ?? "https://gitee.com";
   const apiBaseUrl = config?.enterprise?.baseUrl
     ? `${config?.enterprise?.baseUrl}/api/v5`

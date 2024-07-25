@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 const Social = () => {
-  const onClick = (provider: "google" | "github" | "gitee" | "douyin") => {
+  const onClick = (provider: "google" | "github" | "gitee" | "dy") => {
     signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
   };
   return (
@@ -40,7 +40,7 @@ const Social = () => {
         size="lg"
         variant={"outline"}
         className="w-full"
-        onClick={() => onClick("douyin")}
+        onClick={() => onClick("dy")}
       >
         抖音登录
       </Button>
