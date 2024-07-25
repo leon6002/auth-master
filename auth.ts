@@ -102,9 +102,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
               code: tkCode!,
               grant_type: "authorization_code",
             });
-            console.log("res data: ", resData);
 
-            return resData.data;
+            const { data } = resData;
+            console.log("res data: ", data);
+            const body = typeof data === "string" ? data : JSON.stringify(data);
+            const newResponse: Response = new Response(body, {
+              status: 200,
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+            return newResponse;
           },
         },
       }),
