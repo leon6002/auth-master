@@ -103,7 +103,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
               grant_type: "authorization_code",
             });
 
-            const { data } = resData.json();
+            const { data } = resData;
             data.token_type = "Bearer";
             console.log("res data: ", data);
             const body = typeof data === "string" ? data : JSON.stringify(data);
