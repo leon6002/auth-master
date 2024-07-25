@@ -53,30 +53,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
     adapter: PrismaAdapter(db),
     session: { strategy: "jwt" },
     providers: [
-      TikTok({
-        clientId: process.env.TIKTOK_CLIENT_KEY,
-        clientSecret: process.env.TIKTOK_CLIENT_SECRET,
-        token: {
-          url: "https://open.tiktokapis.com/v2/oauth/token/",
-          async conform(response: Response) {
-            const res = await fetch(response.url, {
-              method: "POST",
-              headers: {
-                "Cache-Control": "no-cache",
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-              body: new URLSearchParams({
-                client_key: process.env.AUTH_TIKTOK_KEY!,
-                client_secret: process.env.AUTH_TIKTOK_SECRET!,
-                code: tkCode!,
-                grant_type: "authorization_code",
-                redirect_uri: process.env.AUTH_URL! + tkCallback,
-              }),
-            });
-            return res;
-          },
-        },
-      }),
       Douyin({
         clientId: process.env.DOUYIN_CLIENT_ID,
         clientSecret: process.env.DOUYIN_CLIENT_SECRET,
@@ -120,14 +96,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
       Gitee({
         clientId: process.env.GITEE_CLIENT_ID,
         clientSecret: process.env.GITEE_CLIENT_SECRET,
-      }),
-      Github({
-        clientId: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      }),
-      Google({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       }),
       Credentials({
         async authorize(credentials) {
