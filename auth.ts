@@ -83,7 +83,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
         token: {
           url: "https://open.douyin.com/oauth/access_token",
           async conform(response: Response) {
-            const res = await fetch(response.url, {
+            const resData = await fetch(response.url, {
               method: "POST",
               headers: {
                 "Cache-Control": "no-cache",
@@ -95,14 +95,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
                 code: tkCode!,
                 grant_type: "authorization_code",
               }),
-            });
+            }).then(async (res) => await res.json());
             console.log({
               client_key: process.env.DOUYIN_CLIENT_ID!,
               client_secret: process.env.DOUYIN_CLIENT_SECRET!,
               code: tkCode!,
               grant_type: "authorization_code",
             });
-            return res;
+            console.log("res data: ", resData);
+
+            return resData.data;
           },
         },
       }),
