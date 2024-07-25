@@ -120,11 +120,12 @@ export default function Douyin<P extends DouyinProfile>(
       },
     },
     profile(profile: any) {
+      profile = profile.data;
       return {
-        id: profile.data.open_id,
-        name: profile.data.nickname,
-        image: profile.data.avatar,
-        email: "",
+        id: profile.open_id,
+        name: profile.nickname,
+        image: profile.avatar,
+        email: `${profile.open_id}@noemail.com`,
       };
     },
     style: { bg: "#24292f", text: "#fff" },
