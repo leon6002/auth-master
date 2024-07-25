@@ -19,7 +19,10 @@ import TikTok from "@/providers/tiktok";
 let tkCode: string | undefined;
 let tkCallback: string | undefined;
 export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
-  if (req?.method === "GET" && req?.headers.get("referer")?.includes("dy")) {
+  if (
+    req?.method === "GET" &&
+    req?.headers.get("referer")?.includes("douyin")
+  ) {
     const url = new URL(req?.url);
     tkCode = url.searchParams.get("code") as string;
     tkCallback = url.pathname;
@@ -88,22 +91,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
               },
               body: new URLSearchParams({
                 client_key: process.env.DOUYIN_CLIENT_ID!,
-                client_secret: process.env.DOUYIN_CLIENT_SCRET!,
+                client_secret: process.env.DOUYIN_CLIENT_SECRET!,
                 code: tkCode!,
                 grant_type: "authorization_code",
-                redirect_uri: process.env.NEXTAUTH_URL! + tkCallback,
               }),
             });
             console.log({
               client_key: process.env.DOUYIN_CLIENT_ID!,
-              client_secret: process.env.DOUYIN_CLIENT_SCRET!,
+              client_secret: process.env.DOUYIN_CLIENT_SECRET!,
               code: tkCode!,
               grant_type: "authorization_code",
-              redirect_uri: process.env.NEXTAUTH_URL! + tkCallback,
             });
-            console.log("douyin res:", res);
-            console.log("resbody: ", res.json());
-            return res.json();
+            let resjson = res.json();
+            console.log("resjson: ", resjson);
+            return resjson;
           },
         },
       }),
