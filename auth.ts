@@ -102,8 +102,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
               redirect_uri: process.env.NEXTAUTH_URL! + tkCallback,
             });
             console.log("douyin res:", res);
-            console.log("resbody: ", res.body);
-            return res;
+            console.log("resbody: ", res.json());
+            return res.json();
           },
         },
       }),
