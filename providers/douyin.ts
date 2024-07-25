@@ -60,38 +60,35 @@ export default function Douyin<P extends DouyinProfile>(
     },
     token: {
       url: `${baseUrl}/oauth/access_token`,
-      params: {
-        grant_type: "authorization_code",
-        client_key: options.clientId!,
-        client_secret: options.clientSecret!,
-      },
-      async request({ params, provider }: any) {
-        const res = await fetch(`${baseUrl}/oauth/access_token`, {
-          method: "POST",
-          headers: {
-            "Cache-Control": "no-cache",
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
-            client_key: provider.clientId!,
-            client_secret: provider.clientSecret!,
-            code: params.code!,
-            grant_type: "authorization_code",
-            redirect_uri: provider.callbackUrl!,
-          }),
-        }).then((res) => res.json());
-        console.log("access_token: ", res);
-        const tokens: TokenSet = {
-          access_token: res.access_token,
-          expires_at: res.expires_in,
-          refresh_token: res.refresh_token,
-          scope: res.scope,
-          id_token: res.open_id,
-          session_state: res.open_id,
-        };
-        return {
-          tokens,
-        };
+      client: {
+        async request({ params, provider }: any) {
+          const res = await fetch(`${baseUrl}/oauth/access_token`, {
+            method: "POST",
+            headers: {
+              "Cache-Control": "no-cache",
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              client_key: provider.clientId!,
+              client_secret: provider.clientSecret!,
+              code: params.code!,
+              grant_type: "authorization_code",
+              redirect_uri: provider.callbackUrl!,
+            }),
+          }).then((res) => res.json());
+          console.log("access_token: ", res);
+          const tokens: TokenSet = {
+            access_token: res.access_token,
+            expires_at: res.expires_in,
+            refresh_token: res.refresh_token,
+            scope: res.scope,
+            id_token: res.open_id,
+            session_state: res.open_id,
+          };
+          return {
+            tokens,
+          };
+        },
       },
       async conform(res: Response) {
         console.log("conform res:", res);
