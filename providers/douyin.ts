@@ -1,8 +1,54 @@
-export default function Douyin(config: any): any {
-  const baseUrl = config?.enterprise?.baseUrl ?? "https://open.douyin.com";
-  const apiBaseUrl = config?.enterprise?.baseUrl
-    ? `${config?.enterprise?.baseUrl}`
-    : "https://open.douyin.com";
+import { TokenSet } from "@auth/core/types";
+import type { OAuthConfig, OAuthUserConfig } from "@auth/core/providers";
+
+export interface DouyinProfile extends Record<string, any> {
+  data: {
+    /**
+     * The unique identification of the user in the current application.Open id
+     * for the client.
+     *
+     * To return this field, add `fields=open_id` in the user profile request's query parameter.
+     */
+    open_id: string;
+    /**
+     * The unique identification of the user across different apps for the same developer.
+     * For example, if a partner has X number of clients,
+     * it will get X number of open_id for the same TikTok user,
+     * but one persistent union_id for the particular user.
+     *
+     * To return this field, add `fields=union_id` in the user profile request's query parameter.
+     */
+    union_id?: string;
+    /**
+     * User's profile image.
+     *
+     * To return this field, add `fields=avatar_url` in the user profile request's query parameter.
+     */
+    avatar: string;
+
+    nickname: string;
+  };
+  error: {
+    /**
+     * The error category in string.
+     */
+    code: string;
+    /**
+     * The error message in string.
+     */
+    message: string;
+    /**
+     * The error message in string.
+     */
+    log_id: string;
+  };
+}
+
+export default function Douyin<P extends DouyinProfile>(
+  options: OAuthUserConfig<P>,
+): any {
+  const baseUrl = "https://open.douyin.com";
+  const apiBaseUrl = "https://open.douyin.com";
 
   return {
     id: "dy",
@@ -10,7 +56,7 @@ export default function Douyin(config: any): any {
     type: "oauth",
     authorization: {
       url: `${baseUrl}/platform/oauth/connect/`,
-      params: { scope: "trial.whitelist", client_key: config.clientId },
+      params: { scope: "trial.whitelist", client_key: options.clientId },
     },
     token: {
       url: `${baseUrl}/oauth/access_token`,
@@ -30,7 +76,7 @@ export default function Douyin(config: any): any {
           }),
         }).then((res) => res.json());
         console.log("access_token: ", res);
-        const tokens: any = {
+        const tokens: TokenSet = {
           access_token: res.access_token,
           expires_at: res.expires_in,
           refresh_token: res.refresh_token,
@@ -66,15 +112,14 @@ export default function Douyin(config: any): any {
       },
     },
     profile(profile: any) {
-      console.log("profile is: ", profile);
       return {
-        id: profile.open_id.toString(),
-        name: profile.nickname ?? profile.login,
-        email: "",
-        image: profile.avatar,
+        id: profile.data.open_id,
+        name: profile.data.nickname,
+        image: profile.data.avatar,
+        email: null,
       };
     },
     style: { bg: "#24292f", text: "#fff" },
-    options: config,
+    options,
   };
 }
