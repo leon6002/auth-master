@@ -87,14 +87,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
                 "Content-Type": "application/x-www-form-urlencoded",
               },
               body: new URLSearchParams({
-                client_key: process.env.AUTH_TIKTOK_KEY!,
-                client_secret: process.env.AUTH_TIKTOK_SECRET!,
+                client_key: process.env.DOUYIN_CLIENT_ID!,
+                client_secret: process.env.DOUYIN_CLIENT_SCRET!,
                 code: tkCode!,
                 grant_type: "authorization_code",
-                redirect_uri: process.env.AUTH_URL! + tkCallback,
+                redirect_uri: process.env.NEXTAUTH_URL! + tkCallback,
               }),
             });
+            console.log({
+              client_key: process.env.DOUYIN_CLIENT_ID!,
+              client_secret: process.env.DOUYIN_CLIENT_SCRET!,
+              code: tkCode!,
+              grant_type: "authorization_code",
+              redirect_uri: process.env.NEXTAUTH_URL! + tkCallback,
+            });
             console.log("douyin res:", res);
+            console.log("resbody: ", res.body);
             return res;
           },
         },
