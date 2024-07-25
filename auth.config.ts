@@ -10,7 +10,7 @@ import Douyin from "@/providers/douyin";
 export default {
   providers: [
     Douyin({
-      clientKey: process.env.DOUYIN_CLIENT_ID,
+      clientId: process.env.DOUYIN_CLIENT_ID,
       clientSecret: process.env.DOUYIN_CLIENT_SECRET,
     }),
     Gitee({
