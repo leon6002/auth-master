@@ -25,7 +25,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
     tkCallback = url.pathname;
   }
   return {
-    basePath: "/api/auth",
     callbacks: {
       async session({ token, session }) {
         console.log({ sessionToken: token, session });
