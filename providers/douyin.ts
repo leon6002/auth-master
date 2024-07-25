@@ -56,7 +56,10 @@ export default function Douyin<P extends DouyinProfile>(
     type: "oauth",
     authorization: {
       url: `${baseUrl}/platform/oauth/connect/`,
-      params: { scope: "trial.whitelist", client_key: options.clientId },
+      params: {
+        scope: "trial.whitelist,user_info",
+        client_key: options.clientId,
+      },
       response_type: "code",
     },
     token: {
