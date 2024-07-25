@@ -15,10 +15,10 @@ export default function Home() {
             font.className,
           )}
         >
-          🔐 Auth
+          谷流仓AI
         </h1>
         <p className="text-center text-lg text-white">
-          A simple authentication service
+          有趣实用的AI工具箱 - AI文档对话、AI文本转换语音
         </p>
         <div>
           <LoginButton>
