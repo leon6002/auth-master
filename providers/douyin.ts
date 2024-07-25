@@ -124,7 +124,7 @@ export default function Douyin<P extends DouyinProfile>(
         id: profile.data.open_id,
         name: profile.data.nickname,
         image: profile.data.avatar,
-        email: null,
+        email: "",
       };
     },
     style: { bg: "#24292f", text: "#fff" },
