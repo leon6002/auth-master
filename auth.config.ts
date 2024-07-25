@@ -6,8 +6,13 @@ import { getUserByEmail } from "./data/user";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Gitee from "@/providers/gitee";
+import Douyin from "@/providers/douyin";
 export default {
   providers: [
+    Douyin({
+      clientId: process.env.DOUYIN_CLIENT_ID,
+      clientSecret: process.env.DOUYIN_CLIENT_SECRET,
+    }),
     Gitee({
       clientId: process.env.GITEE_CLIENT_ID,
       clientSecret: process.env.GITEE_CLIENT_SECRET,

@@ -2,10 +2,10 @@ export default function GitHub(config: any): any {
   const baseUrl = config?.enterprise?.baseUrl ?? "https://open.douyin.com";
   const apiBaseUrl = config?.enterprise?.baseUrl
     ? `${config?.enterprise?.baseUrl}`
-    : "https://open.douyin.com/";
+    : "https://open.douyin.com";
 
   return {
-    id: "douyin",
+    id: "dy",
     name: "Douyin",
     type: "oauth",
     authorization: {
@@ -19,7 +19,7 @@ export default function GitHub(config: any): any {
       },
     },
     userinfo: {
-      url: `${apiBaseUrl}/user`,
+      url: `${apiBaseUrl}/oauth/userinfo`,
       async request({ tokens, provider }: any) {
         const profile = await fetch(provider.userinfo?.url as URL, {
           headers: {
@@ -28,29 +28,16 @@ export default function GitHub(config: any): any {
           },
         }).then(async (res) => await res.json());
 
-        if (!profile.email) {
-          const res = await fetch(`${apiBaseUrl}/user/emails`, {
-            headers: {
-              Authorization: `Bearer ${tokens.access_token}`,
-              "User-Agent": "authjs",
-            },
-          });
-
-          if (res.ok) {
-            const emails: any[] = await res.json();
-            profile.email = (emails.find((e) => e.primary) ?? emails[0]).email;
-          }
-        }
-
         return profile;
       },
     },
     profile(profile: any) {
+      console.log("profile is: ", profile);
       return {
-        id: profile.id.toString(),
-        name: profile.name ?? profile.login,
-        email: profile.email ?? "",
-        image: profile.avatar_url,
+        id: profile.open_id.toString(),
+        name: profile.nickname ?? profile.login,
+        email: "",
+        image: profile.avatar,
       };
     },
     style: { bg: "#24292f", text: "#fff" },
