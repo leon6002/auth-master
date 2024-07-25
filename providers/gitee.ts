@@ -20,7 +20,7 @@ export default function GitHub(config: any): any {
     },
     userinfo: {
       url: `${apiBaseUrl}/user`,
-      async request({ tokens, provider }) {
+      async request({ tokens, provider }: any) {
         const profile = await fetch(provider.userinfo?.url as URL, {
           headers: {
             Authorization: `Bearer ${tokens.access_token}`,
