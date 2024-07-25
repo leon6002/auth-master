@@ -102,9 +102,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
               code: tkCode!,
               grant_type: "authorization_code",
             });
-            let resjson = res.json();
-            console.log("resjson: ", resjson);
-            return resjson;
+            return res;
           },
         },
       }),

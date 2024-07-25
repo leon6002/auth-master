@@ -90,10 +90,6 @@ export default function Douyin<P extends DouyinProfile>(
           tokens,
         };
       },
-      async conform(res: Response) {
-        console.log("conform res:", res);
-        res.headers.forEach(console.log);
-      },
     },
 
     userinfo: {
