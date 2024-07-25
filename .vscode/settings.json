@@ -1,0 +1,6 @@
+{
+  "search.exclude": {
+    "**/enode_modules": true,
+    "**/node_modules": false
+  }
+}

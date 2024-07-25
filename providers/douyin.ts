@@ -88,7 +88,11 @@ export default function Douyin<P extends DouyinProfile>(
           tokens,
         };
       },
+      async conform(res: Response) {
+        console.log("conform res:", res);
+      },
     },
+
     userinfo: {
       url: `${apiBaseUrl}/oauth/userinfo`,
       async request({ tokens, provider }: any) {
