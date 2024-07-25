@@ -10,7 +10,7 @@ export default function GitHub(config: any): any {
     type: "oauth",
     authorization: {
       url: `${baseUrl}/platform/oauth/connect/`,
-      params: { scope: "user_info" },
+      params: { scope: "trial.whitelist", client_key: config.clientId },
     },
     token: {
       url: `${baseUrl}/oauth/access_token`,
