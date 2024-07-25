@@ -13,6 +13,7 @@ export default function Douyin(config: any): any {
       params: { scope: "trial.whitelist", client_key: config.clientId },
     },
     token: {
+      url: `${baseUrl}/oauth/access_token`,
       async request({ params, provider }: any) {
         const res = await fetch(`${baseUrl}/oauth/access_token`, {
           method: "POST",
