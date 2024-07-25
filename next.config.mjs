@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  env: { NEXTAUTH_URL: process.env.HOST },
-};
+const nextConfig = {};
 
 export default nextConfig;
