@@ -103,9 +103,11 @@ export default function Douyin<P extends DouyinProfile>(
           access_token: tokens.access_token,
         });
         const profile = await fetch(provider.userinfo?.url as URL, {
+          method: "POST",
           headers: {
             Authorization: `Bearer ${tokens.access_token}`,
             "User-Agent": "authjs",
+            "Content-Type": "application/x-www-form-urlencoded",
           },
           body: formData,
         }).then(async (res) => await res.json());
