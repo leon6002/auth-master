@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "GLOBAL_AGENT_HTTPS_PROXY=http://127.0.0.1:7890 GLOBAL_AGENT_HTTP_PROXY=http://127.0.0.1:7890 node -r global-agent/bootstrap node_modules/next/dist/bin/next dev",
+    "set-env": "export GLOBAL_AGENT_HTTPS_PROXY=http://127.0.0.1:7890 && export GLOBAL_AGENT_HTTP_PROXY=http://127.0.0.1:7890",
     "build": "next build",
-    "start": "PORT=4000 GLOBAL_AGENT_HTTPS_PROXY=http://127.0.0.1:7890 GLOBAL_AGENT_HTTP_PROXY=http://127.0.0.1:7890 node -r global-agent/bootstrap node_modules/next/dist/bin/next start",
+    "start": "GLOBAL_AGENT_HTTPS_PROXY=http://127.0.0.1:7890 GLOBAL_AGENT_HTTP_PROXY=http://127.0.0.1:7890 PORT=4000  node -r global-agent/bootstrap node_modules/next/dist/bin/next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^0.0.40",
     "@auth/prisma-adapter": "^2.4.1",
     "@hookform/resolvers": "^3.9.0",
     "@langchain/openai": "^0.2.5",
@@ -22,6 +24,7 @@
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-progress": "^1.1.0",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
     "@radix-ui/react-tooltip": "^1.1.2",
