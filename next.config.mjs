@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "douyinpic.com",
+        hostname: "**.douyinpic.com",
         port: "",
         pathname: "/**",
       },
