@@ -12,12 +12,12 @@ import MobileNav from "./MobileNav";
 import { auth } from "@/auth";
 import LoginButton from "./auth/login-button";
 
-const Navbar =  async () => {
+const Navbar = async () => {
   // const { getUser } = getKindeServerSession();
   const session = await auth();
-  if (!session?.user) return null
+  if (!session?.user) return null;
 
-  const user = session.user
+  const user = session.user;
 
   return (
     <nav className="sticky inset-x-0 top-0 z-30 h-14 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
@@ -41,9 +41,7 @@ const Navbar =  async () => {
                 >
                   Pricing
                 </Link>
-                <LoginButton mode="redirect">
-                  Sign in
-                </LoginButton>
+                <LoginButton mode="redirect">Sign in</LoginButton>
                 <Button
                   className={buttonVariants({
                     size: "sm",
@@ -65,12 +63,14 @@ const Navbar =  async () => {
                 </Link>
 
                 <UserAccountNav
-                  name={
-                    !user.name
-                      ? "Your Account"
-                      : `${user.name}`
+                  name={!user.name ? "Your Account" : `${user.name}`}
+                  email={
+                    user.email
+                      ? user.email.endsWith("@noemail.com")
+                        ? ""
+                        : user.email
+                      : ""
                   }
-                  email={user.email ?? ""}
                   imageUrl={user.image ?? ""}
                 />
               </>

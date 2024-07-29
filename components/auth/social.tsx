@@ -42,14 +42,14 @@ const Social = () => {
         >
           <FaGithub />
         </Button>
-        <Button
+        {/* <Button
           size="lg"
           variant={"outline"}
           className="w-full"
           onClick={() => onClick("google")}
         >
           <FcGoogle />
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
