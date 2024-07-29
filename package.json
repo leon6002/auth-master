@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "PORT=4000 next start",
+    "start": "GLOBAL_AGENT_HTTPS_PROXY=http://127.0.0.1:7890 GLOBAL_AGENT_HTTP_PROXY=http://127.0.0.1:7890 node -r global-agent/bootstrap PORT=4000 next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -38,11 +38,14 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "http-proxy": "^1.18.1",
     "http-proxy-middleware": "^3.0.0",
+    "https-proxy-agent": "^7.0.5",
     "langchain": "^0.2.11",
     "lucide-react": "^0.416.0",
     "next": "14.2.5",
     "next-auth": "^5.0.0-beta.19",
+    "next-http-proxy-middleware": "^1.2.6",
     "pdf-parse": "^1.1.1",
     "react": "^18",
     "react-dom": "^18",
@@ -69,6 +72,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "global-agent": "^3.0.0",
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.5",
