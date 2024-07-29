@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "GLOBAL_AGENT_HTTPS_PROXY=http://127.0.0.1:7890 GLOBAL_AGENT_HTTP_PROXY=http://127.0.0.1:7890 node -r global-agent/bootstrap PORT=4000 next start",
+    "start": " PORT=4000 GLOBAL_AGENT_HTTPS_PROXY=http://127.0.0.1:7890 GLOBAL_AGENT_HTTP_PROXY=http://127.0.0.1:7890 node -r global-agent/bootstrap  next start",
     "lint": "next lint"
   },
   "dependencies": {
