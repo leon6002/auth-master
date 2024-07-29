@@ -2,7 +2,7 @@
  * An array of public routes that do not require authentication.
  * @type {string[]}
  */
-export const publicRoutes = ["/"];
+export const publicRoutes = ["/", "/pricing", "/api/uploadthing"];
 
 export const authRoutes = ["/auth/login", "/auth/register"];
 

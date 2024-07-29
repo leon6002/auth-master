@@ -1,9 +1,31 @@
-import React from 'react'
+import { auth } from "@/auth";
+import Dashboard from "@/components/Dashboard";
+import { db } from "@/lib/db";
+// import { getUserSubscriptionPlan } from "@/lib/stripe";
+// import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
 
-const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+const Page = async () => {
+  // const { getUser } = getKindeServerSession();
+  const session = await auth();
+  if (!session?.user) return null
 
-export default Dashboard
+  const user = session.user
+
+  const dbUser = await db.user.findFirst({
+    where: {
+      id: user.id,
+    }
+  });
+
+  if (!dbUser) redirect("/auth-callback?origin=dashboard");
+
+  // const subscriptionPlan = await getUserSubscriptionPlan();
+  const subscriptionPlan = {
+    isSubscribed: false
+  }
+
+  return <Dashboard subscriptionPlan={subscriptionPlan} />;
+};
+
+export default Page;

@@ -1,14 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 
-// every time when nextjs hot reload, it will create a new instance of PrismaClient,
-// this global declaration is necessary to prevent multiple instances of PrismaClient in dev environment
 
-declare global {
-  var prisma: PrismaClient | undefined;
-}
+const createPrismaClient = () =>
+  new PrismaClient({
+    log:
+      process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+  });
 
-export const db = globalThis.prisma || new PrismaClient();
+const globalForPrisma = globalThis as unknown as {
+  prisma: ReturnType<typeof createPrismaClient> | undefined;
+};
 
-if (process.env.NODE_ENV !== "production") {
-  globalThis.prisma = db;
-}
+export const db = globalForPrisma.prisma ?? createPrismaClient();
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;

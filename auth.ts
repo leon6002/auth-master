@@ -1,4 +1,11 @@
-import NextAuth from "next-auth";
+import NextAuth, { DefaultSession, NextAuthConfig } from "next-auth";
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
+import type NextAuthOptions from "next-auth";
+import getServerSession from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 import { getUserById } from "./data/user";
@@ -12,13 +19,30 @@ import Google from "next-auth/providers/google";
 import Gitee from "@/providers/gitee";
 import Douyin from "@/providers/douyin";
 import TikTok from "@/providers/tiktok";
+import { NextRequest } from "next/server";
 
-// export const { handlers, signIn, signOut, auth } = NextAuth({
-//   providers: [GitHub],
-// });
-let tkCode: string | undefined;
-let tkCallback: string | undefined;
-export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
+/**
+ * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
+ * object and keep type safety.
+ *
+ * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
+ */
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    user: {
+      id: string;
+      // ...other properties
+      role: UserRole;
+    } & DefaultSession["user"];
+  }
+
+  // interface User {
+  //   // ...other properties
+  //   // role: UserRole;
+  // }
+}
+
+const config = (req: NextRequest | undefined): NextAuthConfig => {
   if (
     req?.method === "GET" &&
     req?.headers.get("referer")?.includes("douyin")
@@ -33,7 +57,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
     secret: process.env.AUTH_SECRET,
     callbacks: {
       async session({ token, session }) {
-        console.log({ sessionToken: token, session });
+        // console.log({ sessionToken: token, session });
         if (token.sub && session.user) {
           session.user.id = token.sub;
         }
@@ -72,16 +96,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
                 grant_type: "authorization_code",
               }),
             }).then(async (res) => await res.json());
-            console.log({
-              client_key: process.env.DOUYIN_CLIENT_ID!,
-              client_secret: process.env.DOUYIN_CLIENT_SECRET!,
-              code: tkCode!,
-              grant_type: "authorization_code",
-            });
+            // console.log({
+            //   client_key: process.env.DOUYIN_CLIENT_ID!,
+            //   client_secret: process.env.DOUYIN_CLIENT_SECRET!,
+            //   code: tkCode!,
+            //   grant_type: "authorization_code",
+            // });
 
             const { data } = resData;
             data.token_type = "Bearer";
-            console.log("res data: ", data);
+            // console.log("res data: ", data);
             const body = typeof data === "string" ? data : JSON.stringify(data);
             const newResponse: Response = new Response(body, {
               status: 200,
@@ -114,4 +138,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth((req) => {
       }),
     ],
   };
-});
+};
+
+// export const { handlers, signIn, signOut, auth } = NextAuth({
+//   providers: [GitHub],
+// });
+let tkCode: string | undefined;
+let tkCallback: string | undefined;
+export const { handlers, auth, signIn, signOut } = NextAuth(config);
