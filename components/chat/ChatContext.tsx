@@ -3,6 +3,7 @@ import { useToast } from "../ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { trpc } from "@/app/_trpc/client";
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query";
+import { extractStreamBodyText } from "@/lib/utils";
 
 type StreamResponse = {
   addMessage: () => void;
@@ -122,8 +123,7 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
         const { value, done: doneReading } = await reader.read();
         done = doneReading;
         const chunkValue = decoder.decode(value);
-
-        accResponse += chunkValue;
+        accResponse += extractStreamBodyText(chunkValue);
 
         // append chunk to the actual message
         utils.getFileMessages.setInfiniteData(

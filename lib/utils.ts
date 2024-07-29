@@ -51,10 +51,14 @@ export function constructMetadata({
 }
 
 export function absoluteUrl(path: string) {
-  if (typeof window !== 'undefined') return path
-  if (process.env.VERCEL_URL)
-    return `https://${process.env.VERCEL_URL}${path}`
-  return `http://localhost:${
-    process.env.PORT ?? 3000
-  }${path}`
+  if (typeof window !== "undefined") return path;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}${path}`;
+  return `http://localhost:${process.env.PORT ?? 3000}${path}`;
+}
+
+export function extractStreamBodyText(str: string) {
+  const regex = /"(.*?)"/g;
+  const matches = str.match(regex);
+  const results = matches?.map((match) => match.slice(1, -1));
+  return results ? results.join("") : "";
 }

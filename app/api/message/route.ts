@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-// import { openai } from "@/lib/openai";
+import { openai } from "@/lib/openai";
 import { getPineconeClient } from "@/lib/pinecone";
 import { SendMessageValidator } from "@/lib/validators/SendMessageValidator";
 // import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
@@ -7,9 +7,9 @@ import { OpenAIEmbeddings } from "@langchain/openai";
 import { PineconeStore } from "@langchain/pinecone";
 import { NextRequest } from "next/server";
 
-import { OpenAIStream, StreamingTextResponse, streamText } from "ai";
+import { OpenAIStream, StreamingTextResponse } from "ai";
 import { auth } from "@/auth";
-import { openai } from "@ai-sdk/openai";
+// import { openai } from "@ai-sdk/openai";
 
 export const POST = async (req: NextRequest): Promise<any> => {
   // endpoint for asking a question to a pdf file
@@ -77,23 +77,10 @@ export const POST = async (req: NextRequest): Promise<any> => {
     content: msg.text,
   }));
 
-  // const response = await openai.chat.completions.create({});
-
-  // const stream = OpenAIStream(response, {
-  //   async onCompletion(completion:any) {
-  //     await db.message.create({
-  //       data: {
-  //         text: completion,
-  //         isUserMessage: false,
-  //         fileId,
-  //         userId,
-  //       },
-  //     })
-  //   },
-  // })
-  const result = await streamText({
-    model: openai("gpt-4o-mini"),
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
     temperature: 0,
+    stream: true,
     messages: [
       {
         role: "system",
@@ -120,10 +107,13 @@ export const POST = async (req: NextRequest): Promise<any> => {
   USER INPUT: ${message}`,
       },
     ],
-    onFinish: async ({ text, toolCalls, toolResults, finishReason, usage }) => {
+  });
+
+  const stream = OpenAIStream(response, {
+    async onCompletion(completion: any) {
       await db.message.create({
         data: {
-          text: text,
+          text: completion,
           isUserMessage: false,
           fileId,
           userId,
@@ -132,14 +122,5 @@ export const POST = async (req: NextRequest): Promise<any> => {
     },
   });
 
-  //   const reader = result.textStream.getReader();
-  // while (true) {
-  //   const { done, value } = await reader.read();
-  //   if (done) {
-  //     break;
-  //   }
-  //   process.stdout.write(value);
-  // }
-
-  return result.toAIStreamResponse();
+  return new StreamingTextResponse(stream);
 };
