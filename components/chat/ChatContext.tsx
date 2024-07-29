@@ -124,6 +124,7 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
         done = doneReading;
         const chunkValue = decoder.decode(value);
         accResponse += extractStreamBodyText(chunkValue);
+        // console.log(accResponse);
 
         // append chunk to the actual message
         utils.getFileMessages.setInfiniteData(

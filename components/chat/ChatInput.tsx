@@ -26,11 +26,11 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                 maxRows={4}
                 autoFocus
                 onChange={handleInputChange}
+                disabled={isLoading}
                 value={message}
                 onKeyDown={(e: any) => {
                   if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
                     e.preventDefault();
-
                     addMessage();
 
                     textareaRef.current?.focus();
