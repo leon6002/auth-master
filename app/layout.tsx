@@ -20,18 +20,23 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="light">
-      <Providers>
-        <body
-          className={cn(
-            "grainy min-h-screen font-sans antialiased h-full",
-            inter.className,
-          )}
+      <body
+        className={cn(
+          "grainy h-full min-h-screen bg-zinc-900 font-sans antialiased dark:bg-none",
+          inter.className,
+        )}
+      >
+        <Providers
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
           <Toaster />
           <Navbar />
           {children}
-        </body>
-      </Providers>
+        </Providers>
+      </body>
     </html>
   );
 }

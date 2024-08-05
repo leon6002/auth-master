@@ -18,6 +18,7 @@ datasource db {
 enum UserRole {
   USER
   ADMIN
+
 }
 
 model User {
@@ -39,6 +40,8 @@ model User {
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("user")
 }
 
 
@@ -49,12 +52,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String?  @db.VarChar(512)
+  access_token      String?  @db.VarChar(255)
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String?  @db.Text
   session_state     String?
  
   createdAt DateTime @default(now())
@@ -63,6 +66,8 @@ model Account {
   user User @relation(fields: [userId], references: [id])
  
   @@id([provider, providerAccountId])
+
+  @@map("account")
 }
 
 
@@ -87,6 +92,8 @@ model File {
   updatedAt DateTime @updatedAt
   User      User?    @relation(fields: [userId], references: [id])
   userId    String?
+
+  @@map("file")
 }
 
 model Message {
@@ -101,5 +108,99 @@ model Message {
   userId    String?
   File      File?    @relation(fields: [fileId], references: [id])
   fileId    String?
+
+  @@map("message")
 }
+
+
+enum ChatRole {
+  USER      @map("user")
+  ASSISTANT @map("assistant")
+  TOOL      @map("tool")
+
+  @@map("chat_role_enum")
+}
+
+model chat {
+  id        String    @id
+  userId    String?
+  title     String
+  path      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
+  sharePath String?
+}
+
+model ChatMessages {
+  id        Int               @id @default(autoincrement())
+  messageId String
+  role      ChatRole @default(USER)
+  type      ChatContentType @default(TEXT)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  chatId    String
+  deleted   Boolean           @default(false)
+  deletedAt DateTime?
+
+  @@map("chat_messages")
+}
+
+
+enum ChatContentType {
+  TEXT
+  JSON
+  TOOLCALL
+  TOOLRESULT
+  FILE
+  IMAGE
+  AUDIO
+
+  @@map("chat_content_type_enum")
+}
+
+model ToolCallContent {
+  id        String   @id
+  name      String
+  args      Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  messageId String
+
+  @@map("tool_call_content")
+}
+
+model ToolResultContent {
+  id        String   @id
+  name      String
+  args      Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  messageId String
+
+  @@map("tool_result_content")
+}
+
+
+model TextContent {
+  id        String   @id
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("text_content")
+}
+
+model JsonContent {
+  id        String   @id
+  content   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  messageId String
+
+  @@map("json_content")
+}
+
+
 
