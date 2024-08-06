@@ -36,6 +36,7 @@
     "@trpc/server": "^11.0.0-rc.467",
     "@uploadthing/react": "^6.7.2",
     "ai": "^3.2.36",
+    "async-lock": "^1.4.1",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
@@ -77,6 +78,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/async-lock": "^1.4.2",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/d3-scale": "^4.0.8",

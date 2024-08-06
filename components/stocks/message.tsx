@@ -34,6 +34,7 @@ export function BotMessage({
 }) {
   console.log("components/stocks/message.tsx 35 BotMessage", content);
   const text = useStreamableText(content);
+  console.log("components/stocks/message.tsx 37 useStreamableText", text);
 
   return (
     <div className={cn("group relative flex items-start md:-ml-12", className)}>

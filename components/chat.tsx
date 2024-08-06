@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn, sleep } from "@/lib/utils";
 import { ChatList } from "@/components/chat-list";
 import { ChatPanel } from "@/components/chat-panel";
 import { EmptyScreen } from "@/components/empty-screen";
@@ -33,6 +33,10 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   useEffect(() => {
     if (session?.user) {
       if (!path.includes("chat") && messages.length === 1) {
+        console.log(
+          "components/chat.tsx:36 on agent page, refirecting to /agent/chat/[id] page",
+        );
+        //replaceState will only update the uri, but not load the page of the uri
         window.history.replaceState({}, "", `${DEFAULT_AGENT_PATH}/chat/${id}`);
       }
     }
@@ -40,10 +44,18 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
 
   useEffect(() => {
     const messagesLength = aiState.messages?.length;
-    if (messagesLength === 2) {
-      router.refresh();
+    console.log("components/chat.tsx:45", messagesLength, aiState.messages);
+    const path: string = aiState.chatId;
+    if (messagesLength === 2 || messagesLength === 3) {
+      console.log("start refreshing route: ", path);
+      setTimeout(() => {
+        console.log("start refreshing route: ", path);
+        router.push(`${DEFAULT_AGENT_PATH}/chat/${path}`);
+        router.refresh();
+      }, 500);
+      // router.refresh();
     }
-  }, [aiState.messages, router]);
+  }, [aiState.messages, aiState.chatId, router]);
 
   useEffect(() => {
     setNewChatId(id);

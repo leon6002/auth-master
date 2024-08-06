@@ -29,7 +29,7 @@ export async function generateMetadata({
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {
-  console.log("ChatPage");
+  console.log("app/(chat)/agent/chat/[id]/page.tsx:32 ChatPage rendering");
   const session = (await auth()) as Session;
   const missingKeys = await getMissingKeys();
 

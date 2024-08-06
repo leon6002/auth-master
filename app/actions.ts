@@ -26,6 +26,7 @@ export async function getChats(userId?: string | null) {
     const chatIds = await db.chat.findMany({
       where: { userId: userId, deleted: false },
       select: { id: true },
+      orderBy: { createdAt: "desc" },
     });
     console.log(chatIds);
     console.log("userId: ", userId);
@@ -178,6 +179,7 @@ export async function shareChat(id: string) {
 }
 
 async function createChatAndMessages(chat: Chat, userId: string) {
+  console.log("app/actions.ts:181 creating chat messages");
   await db.chat.create({
     data: {
       id: chat.id,
@@ -188,14 +190,13 @@ async function createChatAndMessages(chat: Chat, userId: string) {
       sharePath: chat.sharePath,
     },
   });
-  batchCreateMessage(chat.messages, chat.id);
+  await batchCreateMessage(chat.messages, chat.id);
 }
 
 async function batchCreateMessage(messages: Message[], chatId: string) {
   if (!messages) {
     return;
   }
-
   const chatMessagesToCreate = messages.map((msg): ChatMessageCore => {
     let type;
     if (typeof msg.content === "string") {
@@ -209,7 +210,6 @@ async function batchCreateMessage(messages: Message[], chatId: string) {
         type = ChatContentType.TOOLCALL;
       }
     }
-
     return {
       messageId: msg.id,
       chatId: chatId,
@@ -237,52 +237,57 @@ async function batchCreateMessage(messages: Message[], chatId: string) {
     })),
   });
 }
+
+async function syncChat(chat: Chat) {
+  //1. update chat title
+  await db.chat.update({
+    where: { id: chat.id },
+    data: { title: chat.title },
+  });
+  //2. find messages in db
+  const messagesIdsIndb = await db.chatMessages.findMany({
+    where: { chatId: chat.id },
+    select: { messageId: true },
+  });
+  //3. msgs in db but not in incoming chat, soft delete them
+  const messagesIdsToDelete = messagesIdsIndb.filter(
+    (msg) => !chat.messages.find((m) => m.id === msg.messageId),
+  );
+  if (messagesIdsToDelete) {
+    await db.chatMessages.updateMany({
+      where: { chatId: { in: messagesIdsToDelete.map((m) => m.messageId) } },
+      data: { deletedAt: new Date(), deleted: true },
+    });
+  }
+  //4. msgs in incoming chat but not in db, insert them
+  const messagesToInsert = chat.messages.filter(
+    (msg) => !messagesIdsIndb.find((m) => m.messageId === msg.id),
+  );
+  await batchCreateMessage(messagesToInsert, chat.id);
+}
+
 export async function saveChat(chat: Chat) {
   const session = await auth();
-
-  if (session && session.user) {
-    const userId = session.user.id;
-
-    //find chat reord in db
-    const chatRecord = await db.chat.findUnique({
-      where: { id: chat.id },
-    });
-
-    //if chat record is not found, create a new chat record
-    if (!chatRecord) {
-      createChatAndMessages(chat, userId);
-      return;
-    }
-
-    //if chat record is found, update the chat record
-    //1. update chat title
-    await db.chat.update({
-      where: { id: chat.id },
-      data: { title: chat.title },
-    });
-    //2. find messages in db
-    const messagesIdsIndb = await db.chatMessages.findMany({
-      where: { chatId: chat.id },
-      select: { messageId: true },
-    });
-    //3. msgs in db but not in incoming chat, soft delete them
-    const messagesIdsToDelete = messagesIdsIndb.filter(
-      (msg) => !chat.messages.find((m) => m.id === msg.messageId),
-    );
-    if (messagesIdsToDelete) {
-      await db.chatMessages.updateMany({
-        where: { chatId: { in: messagesIdsToDelete.map((m) => m.messageId) } },
-        data: { deletedAt: new Date(), deleted: true },
-      });
-    }
-    //4. msgs in incoming chat but not in db, insert them
-    const messagesToInsert = chat.messages.filter(
-      (msg) => !messagesIdsIndb.find((m) => m.messageId === msg.id),
-    );
-    await batchCreateMessage(messagesToInsert, chat.id);
-  } else {
+  if (!session || !session.user) {
     return;
   }
+
+  const userId = session.user.id;
+
+  //find chat reord in db
+  const chatRecord = await db.chat.findUnique({
+    where: { id: chat.id },
+  });
+
+  //if chat record is not found, create a new chat record
+  if (!chatRecord) {
+    await createChatAndMessages(chat, userId);
+    console.log("app/actions.ts:284 createChatAndMessages success");
+    return;
+  }
+  //if chat record is found, update the chat record
+  await syncChat(chat);
+  console.log("app/actions.ts:289 messages created");
 }
 
 export async function refreshHistory(path: string) {

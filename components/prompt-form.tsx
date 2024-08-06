@@ -61,9 +61,16 @@ export function PromptForm({
             display: <UserMessage>{value}</UserMessage>,
           },
         ]);
-
+        console.log(
+          "components/prompt-form.tsx:67 await submitUserMessage(value); start, value is :",
+          value,
+        );
         // Submit and get response message
         const responseMessage = await submitUserMessage(value);
+        console.log(
+          "components/prompt-form.tsx:67 await submitUserMessage(value); complete, response is: ",
+          responseMessage,
+        );
         setMessages((currentMessages) => [...currentMessages, responseMessage]);
       }}
     >
