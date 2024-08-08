@@ -11,6 +11,8 @@ import { useAIState, useActions, useUIState } from "ai/rsc";
 import type { AI } from "@/lib/chat/actions";
 import { nanoid } from "nanoid";
 import { UserMessage } from "./stocks/message";
+import AgentSelector from "./AgentSelector";
+import { agentIndex, EXAMPLE_MSGS } from "@/routes";
 
 export interface ChatPanelProps {
   id?: string;
@@ -19,6 +21,10 @@ export interface ChatPanelProps {
   setInput: (value: string) => void;
   isAtBottom: boolean;
   scrollToBottom: () => void;
+  model: string;
+  agent: string;
+  handleModelChange: (value: string) => void;
+  handleAgentChange: (value: string) => void;
 }
 
 export function ChatPanel({
@@ -28,34 +34,18 @@ export function ChatPanel({
   setInput,
   isAtBottom,
   scrollToBottom,
+  model,
+  agent,
+  handleModelChange,
+  handleAgentChange,
 }: ChatPanelProps) {
   const [aiState] = useAIState();
   const [messages, setMessages] = useUIState<typeof AI>();
   const { submitUserMessage } = useActions();
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
-  const exampleMessages = [
-    {
-      heading: "What are the",
-      subheading: "trending memecoins today?",
-      message: `What are the trending memecoins today?`,
-    },
-    {
-      heading: "What is the price of",
-      subheading: "$DOGE right now?",
-      message: "What is the price of $DOGE right now?",
-    },
-    {
-      heading: "I would like to buy",
-      subheading: "42 $DOGE",
-      message: `I would like to buy 42 $DOGE`,
-    },
-    {
-      heading: "What are some",
-      subheading: `recent events about $DOGE?`,
-      message: `What are some recent events about $DOGE?`,
-    },
-  ];
+  const exampleMessages = EXAMPLE_MSGS[agentIndex(agent)];
 
   return (
     <div className="fixed inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/0 dark:from-10% dark:to-background/0 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
@@ -84,6 +74,8 @@ export function ChatPanel({
 
                   const responseMessage = await submitUserMessage(
                     example.message,
+                    model,
+                    agent,
                   );
 
                   setMessages((currentMessages) => [
@@ -130,8 +122,20 @@ export function ChatPanel({
         ) : null}
 
         <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-          <PromptForm input={input} setInput={setInput} />
-          <FooterText className="hidden sm:block" />
+          <AgentSelector
+            model={model}
+            handleModelChange={handleModelChange}
+            agent={agent}
+            handleAgentChange={handleAgentChange}
+          />
+
+          <PromptForm
+            input={input}
+            setInput={setInput}
+            model={model}
+            agent={agent}
+          />
+          {/* <FooterText className="hidden sm:block" /> */}
         </div>
       </div>
     </div>

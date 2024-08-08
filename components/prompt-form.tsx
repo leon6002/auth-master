@@ -22,9 +22,13 @@ import { DEFAULT_AGENT_PATH } from "@/routes";
 export function PromptForm({
   input,
   setInput,
+  model,
+  agent,
 }: {
   input: string;
   setInput: (value: string) => void;
+  model: string;
+  agent: string;
 }) {
   const router = useRouter();
   const { formRef, onKeyDown } = useEnterSubmit();
@@ -66,10 +70,12 @@ export function PromptForm({
           value,
         );
         // Submit and get response message
-        const responseMessage = await submitUserMessage(value);
+        const responseMessage = await submitUserMessage(value, model, agent);
         console.log(
           "components/prompt-form.tsx:67 await submitUserMessage(value); complete, response is: ",
-          responseMessage,
+          value,
+          model,
+          agent,
         );
         setMessages((currentMessages) => [...currentMessages, responseMessage]);
       }}

@@ -8,10 +8,21 @@ import { useLocalStorage } from "@/lib/hooks/use-local-storage";
 import { useEffect, useState } from "react";
 import { useUIState, useAIState } from "ai/rsc";
 import { Message, Session } from "@/lib/types";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useScrollAnchor } from "@/lib/hooks/use-scroll-anchor";
 import { toast } from "sonner";
-import { DEFAULT_AGENT_PATH } from "@/routes";
+import {
+  agentFromIndex,
+  agentIndex,
+  AVALIABLE_AGENTS,
+  AVALIABLE_MODELS,
+  DEFAULT_AGENT_PATH,
+  DEFAULT_AGENT_VALUE,
+  DEFAUTL_MODEL_VALUE,
+  modelFromIndex,
+  modelIndex,
+} from "@/routes";
+import AgentSelector from "./AgentSelector";
 
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[];
@@ -23,39 +34,76 @@ export interface ChatProps extends React.ComponentProps<"div"> {
 export function Chat({ id, className, session, missingKeys }: ChatProps) {
   const router = useRouter();
   const path = usePathname();
+  const searchParams = useSearchParams();
+
   const [input, setInput] = useState("");
   const [messages] = useUIState();
   // console.log("messages is: ", messages);
   const [aiState] = useAIState();
 
-  const [_, setNewChatId] = useLocalStorage("newChatId", id);
+  const [model, setModel] = useState("");
+  const [agent, setAgent] = useState("");
 
   useEffect(() => {
-    if (session?.user) {
-      if (!path.includes("chat") && messages.length === 1) {
-        console.log(
-          "components/chat.tsx:36 on agent page, refirecting to /agent/chat/[id] page",
-        );
-        //replaceState will only update the uri, but not load the page of the uri
-        window.history.replaceState({}, "", `${DEFAULT_AGENT_PATH}/chat/${id}`);
-      }
+    const prevModel = modelFromIndex(
+      parseInt(searchParams.get("model") || "0"),
+    );
+    if (!model) {
+      setModel(prevModel || AVALIABLE_MODELS[0]);
     }
-  }, [id, path, session?.user, messages]);
+    const prevAgent = agentFromIndex(
+      parseInt(searchParams.get("agent") || "0"),
+    );
+    if (!agent) {
+      setAgent(prevAgent || AVALIABLE_AGENTS[0]);
+    }
+
+    console.log(`${prevModel} -> ${model}`);
+    console.log(`${prevAgent} -> ${agent}`);
+  }, [searchParams]);
+
+  const handleModelChange = (value: string) => {
+    console.log("path is: ", path);
+    setModel(value);
+    console.log("mode new value is:", value);
+    console.log(
+      `handleModelChange pushing to ${path}?agent=${agentIndex(agent)}&model=${modelIndex(value)}`,
+    );
+    router.push(
+      `${path}?agent=${agentIndex(agent)}&model=${modelIndex(value)}`,
+    );
+    router.refresh();
+  };
+
+  const handleAgentChange = (value: string) => {
+    setAgent(value);
+    console.log(
+      `handleAgentChange pushing to ${path}?agent=${agentIndex(value)}&model=${modelIndex(model)}`,
+    );
+    router.push(
+      `${path}?agent=${agentIndex(value)}&model=${modelIndex(model)}`,
+    );
+  };
+
+  const [_, setNewChatId] = useLocalStorage("newChatId", id);
 
   useEffect(() => {
     const messagesLength = aiState.messages?.length;
     console.log("components/chat.tsx:45", messagesLength, aiState.messages);
-    const path: string = aiState.chatId;
+    const chatId: string = aiState.chatId;
     if (messagesLength === 2 || messagesLength === 3) {
-      console.log("start refreshing route: ", path);
+      console.log("start refreshing route: ", chatId);
       setTimeout(() => {
-        console.log("start refreshing route: ", path);
-        router.push(`${DEFAULT_AGENT_PATH}/chat/${path}`);
+        console.log("start refreshing route: ", chatId);
+        console.log(`${agent} - ${model}`);
+        router.push(
+          `${DEFAULT_AGENT_PATH}/chat/${chatId}?&agent=${agentIndex(agent)}&model=${modelIndex(model)}`,
+        );
         router.refresh();
       }, 500);
       // router.refresh();
     }
-  }, [aiState.messages, aiState.chatId, router]);
+  }, [aiState.messages, aiState.chatId, router, searchParams, agent, model]);
 
   useEffect(() => {
     setNewChatId(id);
@@ -86,12 +134,17 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         )}
         <div className="h-px w-full" ref={visibilityRef} />
       </div>
+
       <ChatPanel
         id={id}
         input={input}
         setInput={setInput}
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
+        model={model}
+        handleModelChange={handleModelChange}
+        agent={agent}
+        handleAgentChange={handleAgentChange}
       />
     </div>
   );

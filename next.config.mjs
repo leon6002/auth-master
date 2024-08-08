@@ -26,6 +26,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "http",
+        hostname: "**.showapi.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };

@@ -161,27 +161,16 @@ enum ChatContentType {
 }
 
 model ToolCallContent {
-  id        String   @id
+  id        Int               @id @default(autoincrement())
+  toolCallId String
   name      String
-  args      Json?
+  args      String   @db.Text
+  result    String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  messageId String
 
   @@map("tool_call_content")
 }
-
-model ToolResultContent {
-  id        String   @id
-  name      String
-  args      Json?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  messageId String
-
-  @@map("tool_result_content")
-}
-
 
 model TextContent {
   id        String   @id
@@ -191,16 +180,5 @@ model TextContent {
 
   @@map("text_content")
 }
-
-model JsonContent {
-  id        String   @id
-  content   Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  messageId String
-
-  @@map("json_content")
-}
-
 
 

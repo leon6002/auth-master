@@ -32,9 +32,9 @@ export function BotMessage({
   content: string | StreamableValue<string>;
   className?: string;
 }) {
-  console.log("components/stocks/message.tsx 35 BotMessage", content);
+  // console.log("components/stocks/message.tsx 35 BotMessage", content);
   const text = useStreamableText(content);
-  console.log("components/stocks/message.tsx 37 useStreamableText", text);
+  // console.log("components/stocks/message.tsx 37 useStreamableText", text);
 
   return (
     <div className={cn("group relative flex items-start md:-ml-12", className)}>
@@ -126,7 +126,7 @@ export function SystemMessage({ children }: { children: React.ReactNode }) {
 
 export function SpinnerMessage() {
   return (
-    <div className="group relative flex items-start md:-ml-12">
+    <div className="relative flex items-start md:-ml-12">
       <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
         <IconOpenAI />
       </div>

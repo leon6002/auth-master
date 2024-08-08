@@ -14,8 +14,8 @@ const f = createUploadthing();
 // const freePagesLimit = PLANS.find((plan) => plan.name === 'Free')!
 // .pagesPerPdf
 
-const freePagesLimit = 20;
-const proPagesLimit = 200;
+const freePagesLimit = 2000;
+const proPagesLimit = 2000;
 
 const middleware = async () => {
   // const { getUser } = getKindeServerSession()
@@ -143,10 +143,10 @@ const onUploadComplete = async ({
 };
 
 export const ourFileRouter = {
-  freePlanUploader: f({ pdf: { maxFileSize: "4MB" } })
+  freePlanUploader: f({ pdf: { maxFileSize: "1GB" } })
     .middleware(middleware)
     .onUploadComplete(onUploadComplete),
-  proPlanUploader: f({ pdf: { maxFileSize: "16MB" } })
+  proPlanUploader: f({ pdf: { maxFileSize: "1GB" } })
     .middleware(middleware)
     .onUploadComplete(onUploadComplete),
 } satisfies FileRouter;

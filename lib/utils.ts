@@ -145,3 +145,53 @@ export const getMessageFromCode = (resultCode: string) => {
       return "Logged in!";
   }
 };
+
+export const formatDateAndCheckDay = (
+  dateStr: string,
+): {
+  formattedDate: string;
+  isToday: boolean;
+  dayOfWeek: string;
+  isWeekEnd: boolean;
+  isYesterday: boolean;
+} => {
+  const year = parseInt(dateStr.slice(0, 4));
+  const month = parseInt(dateStr.slice(4, 6));
+  const day = parseInt(dateStr.slice(6, 8));
+
+  const inputDate = new Date(year, month - 1, day); // 月份从 0 开始
+  const today = new Date();
+
+  const formattedDate = `${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+  const isToday = inputDate.toDateString() === today.toDateString();
+  const isWeekEnd = inputDate.getDay() === 0 || inputDate.getDay() === 6;
+
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1); // 昨天是今天的日期减去1
+
+  const isYesterday = inputDate.toDateString() === yesterday.toDateString();
+
+  const daysOfWeek = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+  const dayOfWeek = daysOfWeek[inputDate.getDay()];
+
+  return { formattedDate, isToday, dayOfWeek, isWeekEnd, isYesterday };
+};
+
+export function isDateBeforeToday(dateStr: string): boolean {
+  const year = parseInt(dateStr.slice(0, 4));
+  const month = parseInt(dateStr.slice(4, 6));
+  const day = parseInt(dateStr.slice(6, 8));
+
+  const inputDate = new Date(year, month - 1, day); // 月份从 0 开始
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return inputDate < today;
+}
+
+export function getFormattedDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}

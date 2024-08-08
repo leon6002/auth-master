@@ -1,12 +1,8 @@
 import * as React from "react";
 
-import Link from "next/link";
-
-import { cn } from "@/lib/utils";
 import { SidebarList } from "@/components/sidebar-list";
-import { buttonVariants } from "@/components/ui/button";
-import { IconPlus } from "@/components/ui/icons";
-import { DEFAULT_AGENT_PATH } from "@/routes";
+
+import NewChatButton from "./new-chat-button";
 
 interface ChatHistoryProps {
   userId?: string;
@@ -16,22 +12,14 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
   console.log(
     "[rendering sidebar ChatHistory](components/chat-history.tsx:16)",
   );
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between p-4">
         <h4 className="text-sm font-medium">Chat History</h4>
       </div>
       <div className="mb-2 px-2">
-        <Link
-          href={DEFAULT_AGENT_PATH}
-          className={cn(
-            buttonVariants({ variant: "outline" }),
-            "h-10 w-full justify-start bg-zinc-50 px-4 shadow-none transition-colors hover:bg-zinc-200/40 dark:bg-zinc-900 dark:hover:bg-zinc-300/10",
-          )}
-        >
-          <IconPlus className="-translate-x-2 stroke-2" />
-          New Chat
-        </Link>
+        <NewChatButton />
       </div>
       <React.Suspense
         fallback={

@@ -1,12 +1,12 @@
-import { AreaCodeResponseData, showapi_res, WeatherData } from '@/lib/types'
-import { NextResponse } from 'next/server'
+import { AreaCodeResponseData, showapi_res, WeatherData } from "@/lib/types";
+import { NextResponse } from "next/server";
 
 interface Weather15DayProps {
-  area: string
-  areaCode: string
-  areaid: string
-  district: string
-  prov: string
+  area: string;
+  areaCode: string;
+  areaid: string;
+  district: string;
+  prov: string;
 }
 
 export const Weather15Day = async ({
@@ -14,42 +14,43 @@ export const Weather15Day = async ({
   areaCode,
   areaid,
   district,
-  prov
+  prov,
 }: Weather15DayProps) => {
   try {
-    const accessToken = process.env.SHOWAPI_ACCESS_TOKEN || ''
-    const tokenHeader = process.env.SHOWAPI_TOKEN_HEADER || ''
-    const apiUrl = `https://116afb0c487e1514113b35f0395f895f.xapi.showapi.com/3-9`
+    const accessToken = process.env.SHOWAPI_ACCESS_TOKEN || "";
+    const tokenHeader = process.env.SHOWAPI_TOKEN_HEADER || "";
+    const apiUrl = `https://116afb0c487e1514113b35f0395f895f.xapi.showapi.com/3-9`;
 
     const params = new URLSearchParams({
       area,
       areaCode,
-      areaid
-    })
-
+      areaid,
+    });
+    console.log("showapi:Weather15Day started, params is: ", params.toString());
     // 发起 POST 请求
     const response = await fetch(apiUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        [tokenHeader]: accessToken
+        "Content-Type": "application/x-www-form-urlencoded",
+        [tokenHeader]: accessToken,
       },
-      body: params.toString()
-    })
+      body: params.toString(),
+    });
 
-    const data: showapi_res = await response.json()
-    // console.log(data)
+    const data: showapi_res = await response.json();
+    console.log(
+      "showapi:Weather15Day success, data is: ",
+      JSON.stringify(data),
+    );
     if (data.showapi_res_code !== 0) {
       throw new Error(
-        `Error request showapi, request id:${data.showapi_res_code}, error message: ${data.showapi_res_error}.  `
-      )
+        `Error request showapi, request id:${data.showapi_res_code}, error message: ${data.showapi_res_error}.  `,
+      );
     }
-    const weatherData = data.showapi_res_body as WeatherData
-    weatherData.district = district
-    weatherData.prov = prov
-    return weatherData
+    const weatherData = data.showapi_res_body as WeatherData;
+    return weatherData;
   } catch (error) {
-    console.error('showapi获取天气出错', error)
-    return null
+    console.error("showapi获取天气出错", error);
+    return null;
   }
-}
+};

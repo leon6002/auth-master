@@ -1,10 +1,15 @@
-export async function getToolCallResult(toolcallId: string) {
-  if (!toolcallId) {
+import { db } from "@/lib/db";
+
+export async function getToolCallResult(toolCallId: string) {
+  if (!toolCallId) {
     console.log("toolcallId is null");
     return null;
   }
-  console.log(`getToolCallResult from kv: ${toolcallId}`);
-  const toolCallResult = await kv.hgetall<any>(`toolcall:${toolcallId}`);
+  console.log(`getToolCallResult from kv: ${toolCallId}`);
+  const toolCallResult = await db.toolCallContent.findFirst({
+    where: { toolCallId },
+    select: { result: true },
+  });
 
   if (!toolCallResult) {
     console.log(`getToolCallResult result is null`);
@@ -13,5 +18,26 @@ export async function getToolCallResult(toolcallId: string) {
 
   console.log(`getToolCallResult result is: ${toolCallResult}`);
 
-  return toolCallResult;
+  return JSON.parse(toolCallResult.result);
+}
+
+export async function saveToolCallResult(
+  toolCallId: string,
+  name: string,
+  args: string,
+  result: string,
+) {
+  if (!toolCallId) {
+    console.log("toolcallId is null");
+    return null;
+  }
+  console.log(`getToolCallResult from kv: ${toolCallId}`);
+  await db.toolCallContent.create({
+    data: {
+      toolCallId,
+      name,
+      args,
+      result,
+    },
+  });
 }
