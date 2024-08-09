@@ -44,8 +44,7 @@ export const GeneralAgent = async (content: string, model: string) => {
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>;
   let textNode: undefined | React.ReactNode;
   const openai = createOpenAI({
-    // baseURL: "https://api.guliucang.com/v1",
-    baseURL: "http://127.0.0.1:3004/v1",
+    baseURL: process.env.OPENAI_BASE_URL,
     apiKey: process.env.OPENAI_API_KEY,
   });
   const today = format(new Date(), "yyyy-MM-dd HH:mm:ss");
