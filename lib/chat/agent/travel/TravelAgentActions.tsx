@@ -11,11 +11,12 @@ import { SpinnerMessage, UserMessage } from "@/components/stocks/message";
 import { Chat } from "@/lib/types";
 import { AI } from "../../actions";
 import { AttractionsSkeleton } from "@/components/attractions/attractions-skeleton";
-import { Attractions } from "@/components/attractions";
+import { Attraction, Attractions } from "@/components/attractions";
 import { Weather } from "@/components/weather";
 import { WeatherSkeleton } from "@/components/weather/weather-skeleton";
 import { format } from "date-fns";
 import { AVALIABLE_MODELS } from "@/routes";
+import { AttractionSkeleton } from "@/components/attractions/attraction-skeleton";
 
 export const TravelAgentActions = async (content: string, model: string) => {
   if (!model || model === AVALIABLE_MODELS[0]) {
@@ -58,6 +59,7 @@ export const TravelAgentActions = async (content: string, model: string) => {
 
     If the user want to show the tourist attractions in a city of China, call \`list_attractions\` with the given city name, you need to translated the city name into Chinese.
     If the user did not provide a city name , you are free to pick any Chinese trending city and call \`list_attractions\`.
+    If the user want to view an attraction's detail, call \`attraction_detail\` function.
 
     If the user want to know the weather of a city of China, call \`get_weather\` with the given city name, you need to translated the city name into Chinese.
 
@@ -150,7 +152,59 @@ export const TravelAgentActions = async (content: string, model: string) => {
 
           return (
             <BotCard>
-              <Attractions props={{ cityName, toolCallId }} />
+              <Attractions props={{ cityName, toolCallId, model }} />
+            </BotCard>
+          );
+        },
+      },
+      attractionDetail: {
+        description: "Get the attraction details with the given scenicId",
+        parameters: z.object({
+          scenicId: z.string().describe("the unique id of the attraction site"),
+        }),
+        generate: async function* ({ scenicId }) {
+          yield (
+            <BotCard>
+              <AttractionSkeleton error={null} />
+            </BotCard>
+          );
+
+          const toolCallId = nanoid();
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: "assistant",
+                content: [
+                  {
+                    type: "tool-call",
+                    toolName: "attractionDetail",
+                    toolCallId,
+                    args: { scenicId },
+                  },
+                ],
+              },
+              {
+                id: nanoid(),
+                role: "tool",
+                content: [
+                  {
+                    type: "tool-result",
+                    toolName: "attractionDetail",
+                    toolCallId,
+                    result: { scenicId },
+                  },
+                ],
+              },
+            ],
+          });
+
+          return (
+            <BotCard>
+              <Attraction props={{ scenicId, toolCallId, model }} />
             </BotCard>
           );
         },
@@ -237,7 +291,13 @@ export const getUIStateFromAIState = (aiState: Chat) => {
           case "listAttractions":
             return (
               <BotCard>
-                <Attractions props={{ cityName: result, toolCallId }} />
+                <Attractions
+                  props={{
+                    cityName: result,
+                    toolCallId,
+                    model: AVALIABLE_MODELS[1],
+                  }}
+                />
               </BotCard>
             );
           case "getWeather":
@@ -247,6 +307,18 @@ export const getUIStateFromAIState = (aiState: Chat) => {
                   props={{
                     cityName: result as string,
                     toolCallId: toolCallId,
+                  }}
+                />
+              </BotCard>
+            );
+          case "attractionDetail":
+            return (
+              <BotCard>
+                <Attraction
+                  props={{
+                    scenicId: result,
+                    toolCallId,
+                    model: AVALIABLE_MODELS[1],
                   }}
                 />
               </BotCard>

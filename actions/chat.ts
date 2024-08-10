@@ -41,3 +41,53 @@ export async function saveToolCallResult(
     },
   });
 }
+
+export async function saveApiResponse(
+  id: string,
+  name: string,
+  params: string,
+  result: string,
+) {
+  if (!id) {
+    console.log("toolcallId is null");
+    return null;
+  }
+  await db.cachedApiResponse.create({
+    data: {
+      id,
+      name,
+      params,
+    },
+  });
+  // 将结果存储在textContent表，这样当查询的时候，先通过name和param查找到id，
+  // 在到这个表直接通过id查找结果，这样在result数量大的时候查起来快一些
+  await db.textContent.create({
+    data: {
+      id,
+      content: result,
+    },
+  });
+}
+
+export async function SearchCachedApiResponse(
+  apiName: string,
+  apiParams: string,
+) {
+  if (!apiName) {
+    console.log("toolcallId is null");
+    return null;
+  }
+  const apiCallId = await db.cachedApiResponse.findFirst({
+    where: { name: apiName, params: { equals: JSON.parse(apiParams) } },
+    select: { id: true },
+  });
+  if (!apiCallId) return null;
+
+  const result = await db.textContent.findUnique({
+    where: { id: apiCallId.id },
+    select: { content: true },
+  });
+  if (!result) return null;
+
+  return JSON.parse(result.content);
+}

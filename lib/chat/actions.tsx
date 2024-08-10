@@ -14,8 +14,9 @@ import { GeneralAgent } from "@/lib/chat/agent/general/GeneralAgentActions";
 import { TravelAgentActions } from "./agent/travel/TravelAgentActions";
 import { BotCard, Events, Purchase, Stock, Stocks } from "@/components/stocks";
 import { BotMessage, UserMessage } from "@/components/stocks/message";
-import { Attractions } from "@/components/attractions";
+import { Attraction, Attractions } from "@/components/attractions";
 import { Weather } from "@/components/weather";
+import { AVALIABLE_MODELS } from "@/routes";
 
 async function submitUserMessage(
   content: string,
@@ -151,7 +152,17 @@ const displayToolContent = (
     case "listAttractions":
       return (
         <BotCard>
-          <Attractions props={{ cityName: result, toolCallId }} />
+          <Attractions
+            props={{ cityName: result, toolCallId, model: AVALIABLE_MODELS[1] }}
+          />
+        </BotCard>
+      );
+    case "attractionDetail":
+      return (
+        <BotCard>
+          <Attraction
+            props={{ scenicId: result, toolCallId, model: AVALIABLE_MODELS[1] }}
+          />
         </BotCard>
       );
     case "getWeather":

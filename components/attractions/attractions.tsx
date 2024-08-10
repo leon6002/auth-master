@@ -8,11 +8,15 @@ import Image from "next/image";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdAccessTime } from "react-icons/md";
 import { RiMoneyCnyCircleLine } from "react-icons/ri";
+import { AttractionsSkeleton } from "./attractions-skeleton";
+import { AttractionsSkeletonError } from "./attractions-skeleton-error";
+import { AVALIABLE_AGENTS } from "@/routes";
+import { AttractionSkeletonError } from "./attraction-skeleton-error";
 
 export function Attractions({
-  props: { cityName, toolCallId },
+  props: { cityName, toolCallId, model },
 }: {
-  props: { cityName: string; toolCallId: string };
+  props: { cityName: string; toolCallId: string; model: string };
 }) {
   const [, setMessages] = useUIState<typeof AI>();
   const { submitUserMessage } = useActions();
@@ -21,6 +25,10 @@ export function Attractions({
     cityName,
     toolCallId,
   );
+  if (isLoading) return <AttractionsSkeleton />;
+  if (error) {
+    return <AttractionSkeletonError />;
+  }
 
   return (
     <div>
@@ -30,8 +38,13 @@ export function Attractions({
             key={attraction.scenicId}
             className="flex cursor-pointer flex-col gap-2 rounded-lg bg-secondary p-2 text-left hover:bg-primary/10 dark:bg-zinc-800 sm:w-52"
             onClick={async () => {
+              console.log(
+                `submitUserMessage from listAttraction, ${model}, ${attraction.scenicId}}`,
+              );
               const response = await submitUserMessage(
-                `View ${attraction.scenicId}`,
+                `View attraction detail with scenicId: ${attraction.scenicId}`,
+                model,
+                AVALIABLE_AGENTS[1],
               );
               setMessages((currentMessages) => [...currentMessages, response]);
             }}

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.40",
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@auth/prisma-adapter": "^2.4.1",
     "@hookform/resolvers": "^3.9.0",
     "@langchain/openai": "^0.2.5",
@@ -17,6 +18,7 @@
     "@mantine/hooks": "^7.11.2",
     "@pinecone-database/pinecone": "^3.0.0",
     "@prisma/client": "^5.17.0",
+    "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-collapsible": "^1.1.0",
@@ -36,6 +38,7 @@
     "@trpc/next": "^11.0.0-rc.467",
     "@trpc/react-query": "^11.0.0-rc.467",
     "@trpc/server": "^11.0.0-rc.467",
+    "@uiw/react-amap": "^7.1.0",
     "@uploadthing/react": "^6.7.2",
     "ai": "^3.2.36",
     "async-lock": "^1.4.1",

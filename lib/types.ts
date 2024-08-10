@@ -253,3 +253,42 @@ export interface AqiDetail {
   so2: string;
   pm2_5: string;
 }
+
+// acctracitons detail response data types
+export interface AttractionBookNotice {
+  name: string;
+  value: string;
+  key: string;
+}
+
+export interface AttractionDetailData {
+  defaultPic: string;
+  scenicAddress: string;
+  cityName: string;
+  glocation: string;
+  scenicDescription: string;
+  blocation: string;
+  msg: string;
+  ret_code: number;
+  bookNotice: AttractionBookNotice[];
+  trafficBus: string;
+  recommend: string;
+  scenicId: number;
+  disTickets: any[]; // Assuming disTickets can be any type for now
+  scenicName: string;
+  openTime: string;
+}
+
+export interface SearchResult {
+  results: ImageResult[];
+}
+
+export interface ImageResult {
+  height: number;
+  image: string;
+  source: string;
+  thumbnail: string;
+  title: string;
+  url: string;
+  width: number;
+}

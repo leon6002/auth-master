@@ -1,4 +1,4 @@
-export const AttractionSkeleton = () => {
+export const AttractionSkeleton = ({ error }: { error: string | null }) => {
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4 text-green-400">
       <div className="float-right inline-block w-fit rounded-full bg-zinc-700 px-2 py-1 text-xs text-transparent">
@@ -15,8 +15,11 @@ export const AttractionSkeleton = () => {
       </div>
 
       <div className="relative -mx-4 cursor-col-resize">
-        <div style={{ height: 146 }}></div>
+        <div style={{ height: 146 }}>
+          <span>获取景点详细信息中</span>
+          {error && <span className="text-red-400">获取景点详细信息失败</span>}
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};

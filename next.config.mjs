@@ -4,6 +4,14 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
+      {
+        protocol: "https",
         hostname: "gitee.com",
         port: "",
         pathname: "/**",
@@ -29,6 +37,12 @@ const nextConfig = {
       {
         protocol: "http",
         hostname: "**.showapi.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "**.tuniucdn.com",
         port: "",
         pathname: "/**",
       },

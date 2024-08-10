@@ -1,23 +1,23 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Attraction } from "@/lib/types";
+import { Attraction, AttractionDetailData } from "@/lib/types";
 
-function useAttractions(cityName: string, toolCallId: string) {
-  const [attractions, setAttractions] = useState<Attraction[]>([]);
+function useAttractionDetail(scenicId: string, toolCallId: string) {
+  const [attraction, setAttraction] = useState<AttractionDetailData>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchAttractions = async () => {
+    const fetchAttractionDetail = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch("/api/attractions", {
+        const response = await fetch("/api/attraction", {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
-          body: new URLSearchParams({ cityName, toolCallId }).toString(), // 传递城市参数
+          body: new URLSearchParams({ scenicId, toolCallId }).toString(), // 传递城市参数
         });
 
         if (response.ok) {
@@ -25,8 +25,8 @@ function useAttractions(cityName: string, toolCallId: string) {
           if (data.ret_code !== 0) {
             throw new Error(data.showapi_res_error);
           }
-          console.log(data.result);
-          setAttractions(data.result);
+          console.log(JSON.stringify(data));
+          setAttraction(data);
         } else {
           setError("查询景点信息出错");
         }
@@ -37,10 +37,10 @@ function useAttractions(cityName: string, toolCallId: string) {
       }
     };
 
-    fetchAttractions();
-  }, [cityName, toolCallId]);
+    fetchAttractionDetail();
+  }, [scenicId, toolCallId]);
 
-  return { attractions, isLoading, error };
+  return { attraction, isLoading, error };
 }
 
-export default useAttractions;
+export default useAttractionDetail;
