@@ -1,24 +1,22 @@
-export const AttractionSkeleton = ({ error }: { error: string | null }) => {
-  return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4 text-green-400">
-      <div className="float-right inline-block w-fit rounded-full bg-zinc-700 px-2 py-1 text-xs text-transparent">
-        xxxxxxx
-      </div>
-      <div className="mb-1 w-fit rounded-md bg-zinc-700 text-lg text-transparent">
-        xxxx
-      </div>
-      <div className="w-fit rounded-md bg-zinc-700 text-3xl font-bold text-transparent">
-        xxxx
-      </div>
-      <div className="text mt-1 w-fit rounded-md bg-zinc-700 text-xs text-transparent">
-        xxxxxx xxx xx xxxx xx xxx
-      </div>
+import { Skeleton } from "../ui/skeleton";
 
-      <div className="relative -mx-4 cursor-col-resize">
-        <div style={{ height: 146 }}>
-          <span>获取景点详细信息中</span>
-          {error && <span className="text-red-400">获取景点详细信息失败</span>}
-        </div>
+export const AttractionSkeleton = ({ message }: { message?: string }) => {
+  return (
+    <div>
+      <Skeleton className="flex h-[330px] w-[590px] flex-col items-start justify-start gap-y-2 rounded-xl p-2 text-center">
+        {message && <p>{message}</p>}
+      </Skeleton>
+      <div className="my-4 flex gap-x-2">
+        <Skeleton className="h-[80px] w-[120px]" />
+        <Skeleton className="h-[80px] w-[120px]" />
+        <Skeleton className="h-[80px] w-[120px]" />
+        <Skeleton className="h-[80px] w-[120px]" />
+      </div>
+      <div className="flex flex-col gap-y-3 pb-10">
+        <Skeleton className="h-[28px] w-[100px]" />
+        <Skeleton className="h-[28px] w-[180px]" />
+        <Skeleton className="h-[28px] w-[120px]" />
+        <Skeleton className="h-[28px] w-[200px]" />
       </div>
     </div>
   );
