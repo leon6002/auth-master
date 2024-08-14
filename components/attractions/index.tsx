@@ -12,7 +12,7 @@ const Attraction = dynamic(
   () => import("./attraction").then((mod) => mod.Attraction),
   {
     ssr: false,
-    loading: () => <AttractionSkeleton error={null} />,
+    loading: () => <AttractionSkeleton message={"景点数据加载中..."} />,
   },
 );
 

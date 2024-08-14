@@ -1,3 +1,4 @@
+import { DrivingRoute, RoutePath } from "@/types/api-map-types";
 import { ChatContentType, ChatRole } from "@prisma/client";
 import { CoreMessage } from "ai";
 
@@ -291,4 +292,34 @@ export interface ImageResult {
   title: string;
   url: string;
   width: number;
+}
+
+export interface Coordinates {
+  lat: number;
+  lon: number;
+}
+
+export interface RouteItem {
+  id: string;
+  origin: LocationPoint;
+  destination: LocationPoint;
+  routeType: string;
+  paths: RoutePath[];
+}
+
+export interface LocationPoint {
+  title: string;
+  lnglat: number[];
+}
+
+export interface Product {
+  id: number;
+  title: string;
+}
+
+export interface SearchResponse {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
 }

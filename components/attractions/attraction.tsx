@@ -7,6 +7,7 @@ import type { AI } from "@/lib/chat/actions";
 import useAttractionDetail from "@/lib/hooks/use-attraction-detail";
 import { AttractionSkeleton } from "./attraction-skeleton";
 import AttractionCard from "./attraction-card";
+import { Coordinates } from "@/lib/types";
 
 export function Attraction({
   props: { scenicId, toolCallId, model },
@@ -21,10 +22,11 @@ export function Attraction({
     toolCallId,
   );
   if (isLoading || error || !attraction) {
-    return <AttractionSkeleton error={error} />;
+    return <AttractionSkeleton message={error || ""} />;
   }
-  const glocaiton = attraction.glocation.split(",").map((x) => parseFloat(x));
-  const blocaiton = attraction.blocation.split(",").map((x) => parseFloat(x));
+
+  const [lat, lon] = attraction.glocation.split(",").map(parseFloat);
+  const glocation: Coordinates = { lat, lon };
 
   const bookNotice = attraction.bookNotice as BookNoticeItem[];
   const formattedNotice = extractAndFormatBookNotice(bookNotice);
@@ -39,8 +41,8 @@ export function Attraction({
       scenicDescription={attraction.scenicDescription}
       trafficBus={attraction.trafficBus}
       defaultPic={attraction.defaultPic}
-      glocation={glocaiton}
-      blocation={blocaiton}
+      glocation={glocation}
+      recommand={attraction.recommend}
     />
   );
 }

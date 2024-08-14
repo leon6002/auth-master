@@ -7,32 +7,30 @@ import useAttractions from "@/lib/hooks/use-attractions";
 import Image from "next/image";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdAccessTime } from "react-icons/md";
-import { RiMoneyCnyCircleLine } from "react-icons/ri";
 import { AttractionsSkeleton } from "./attractions-skeleton";
-import { AttractionsSkeletonError } from "./attractions-skeleton-error";
 import { AVALIABLE_AGENTS } from "@/routes";
-import { AttractionSkeletonError } from "./attraction-skeleton-error";
 
 export function Attractions({
   props: { cityName, toolCallId, model },
 }: {
   props: { cityName: string; toolCallId: string; model: string };
 }) {
+  // console.log(
+  //   `components/attractions/attractions.tsx:18 Attractions receiving props: ${cityName}, ${toolCallId}, ${model}`,
+  // );
   const [, setMessages] = useUIState<typeof AI>();
   const { submitUserMessage } = useActions();
-  console.log("components/attractions/attractions.tsx:19 start useAttractions");
+  console.log("components/attractions/attractions.tsx:21 start useAttractions");
   const { attractions, isLoading, error } = useAttractions(
     cityName,
     toolCallId,
   );
-  if (isLoading) return <AttractionsSkeleton />;
-  if (error) {
-    return <AttractionSkeletonError />;
-  }
+  if (isLoading) return <AttractionsSkeleton message="景点加载中..." />;
+  if (error) return <AttractionsSkeleton message="数据获取失败" />;
 
   return (
     <div>
-      <div className="mb-4 flex max-w-screen-sm flex-col gap-2 overflow-scroll pb-4 text-sm sm:flex-row">
+      <div className="mb-2 flex max-w-screen-sm flex-col gap-2 overflow-scroll pb-4 text-sm sm:flex-row">
         {attractions.map((attraction) => (
           <button
             key={attraction.scenicId}
@@ -84,9 +82,8 @@ export function Attractions({
           </button>
         ))}
       </div>
-      <div className="p-4 text-center text-sm text-zinc-500">
-        Note: Data and latency are simulated for illustrative purposes and
-        should not be considered as financial advice.
+      <div className="p-1 text-center text-xs text-zinc-500">
+        注意：景区价格可能有所浮动，以景区实际公告为准
       </div>
     </div>
   );

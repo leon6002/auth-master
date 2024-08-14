@@ -11,7 +11,7 @@ function useWeather(cityName: string, toolCallId: string) {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        setIsLoading(false);
+        setIsLoading(true);
         const response = await fetch("/api/weather", {
           method: "POST",
           headers: {

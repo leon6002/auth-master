@@ -13,7 +13,6 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { nanoid } from "@/lib/utils";
-import Image from "next/image";
 
 import {
   Accordion,
@@ -24,7 +23,9 @@ import {
 import useSearchImage from "@/lib/hooks/use-search-image";
 import { ImageGallery } from "./image-gallery";
 import ImageGallerySkeleton from "./image-gallery-skeleton";
-import { useEffect } from "react";
+import { Coordinates } from "@/lib/types";
+import { AttractionSkeleton } from "./attraction-skeleton";
+// import MapSearch from "../maps/map-search";
 
 interface AttractionCardProps {
   cityName: string;
@@ -35,8 +36,8 @@ interface AttractionCardProps {
   scenicDescription: string;
   trafficBus: string;
   defaultPic: string;
-  glocation: number[];
-  blocation: number[];
+  glocation: Coordinates;
+  recommand: string;
 }
 
 export default function AttractionCard({
@@ -49,12 +50,12 @@ export default function AttractionCard({
   trafficBus,
   defaultPic,
   glocation,
-  blocation,
+  recommand,
 }: AttractionCardProps) {
   const { images, isLoading, error } = useSearchImage(
     `${cityName}${scenicName}`,
   );
-  if (isLoading) return <ImageGallerySkeleton />;
+  if (isLoading) return <AttractionSkeleton message="景点信息加载中..." />;
 
   return (
     <Card className="w-full max-w-2xl">
@@ -72,7 +73,7 @@ export default function AttractionCard({
             <ImageGallery
               images={images}
               title={`${cityName} ${scenicName}`}
-              subtitle={`${scenicAddress}`}
+              subtitle={`${recommand}`}
             />
           )}
         </div>
@@ -118,10 +119,9 @@ export default function AttractionCard({
                   <AccordionContent className="px-4 py-3 text-gray-500 dark:text-gray-400">
                     <div className="pl-4">
                       {ticketSpecial.map((item) => (
-                        <>
-                          <span className="text-sm font-medium">{item}</span>
-                          <br />
-                        </>
+                        <p key={nanoid()} className="text-sm font-medium">
+                          {item}
+                        </p>
                       ))}
                     </div>
                   </AccordionContent>
@@ -132,22 +132,11 @@ export default function AttractionCard({
                 <AccordionTrigger className="flex w-full items-center justify-between rounded-lg bg-white px-4 py-3 text-left shadow-sm hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-gray-300 dark:bg-gray-950 dark:text-gray-50 dark:hover:bg-gray-800 dark:focus-visible:ring-gray-700">
                   <span className="text-base font-medium">景区交通</span>
                 </AccordionTrigger>
-                <AccordionContent className="px-4 py-3 text-gray-500 dark:text-gray-400">
-                  <div className="grid gap-4 md:grid-cols-2"></div>
-                  <div className="grid gap-2 pl-4">
-                    <div>{trafficBus}</div>
-                  </div>
-                  <div className="grid gap-2 pl-4">
-                    <div className="text-sm font-bold">地图：</div>
-                    <div>
-                      <Image
-                        src={defaultPic}
-                        alt="Yosemite National Park Map"
-                        className="w-full rounded-lg"
-                        width="400"
-                        height="300"
-                        style={{ aspectRatio: "400/300", objectFit: "cover" }}
-                      />
+                <AccordionContent className="py-3 text-gray-500 dark:text-gray-400">
+                  <div>{trafficBus}</div>
+                  <div className="flex w-full flex-col">
+                    <div className="h-[500px]">
+                      {/* <MapSearch gLngLat={glocation} /> */}
                     </div>
                   </div>
                 </AccordionContent>
