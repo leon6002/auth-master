@@ -9,9 +9,7 @@ interface ChatHistoryProps {
 }
 
 export async function ChatHistory({ userId }: ChatHistoryProps) {
-  console.log(
-    "[rendering sidebar ChatHistory](components/chat-history.tsx:16)",
-  );
+  // console.log("components/chat-history.tsx:13 rendering sidebar ChatHistory");
 
   return (
     <div className="flex h-full flex-col">

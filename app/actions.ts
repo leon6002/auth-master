@@ -90,8 +90,6 @@ export async function getChat(id: string, userId?: string) {
     messages: messages,
     sharePath: chat.sharePath,
   };
-  console.log();
-
   return chatResult;
 }
 

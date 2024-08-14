@@ -58,7 +58,7 @@ export const AI = createAI<AIState, UIState>({
   initialAIState: { chatId: nanoid(), messages: [] },
   onGetUIState: async () => {
     "use server";
-    console.log("lib/chat/actions.tsx 519 onGetUIState is running");
+    // console.log("lib/chat/actions.tsx 61 onGetUIState is running");
     const session = await auth();
 
     if (!session || !session.user) {
@@ -115,7 +115,7 @@ export const AI = createAI<AIState, UIState>({
 });
 
 export const getUIStateFromAIState = (aiState: Chat) => {
-  console.log("lib/chat/actions.tsx:562 getUIStateFromAIState");
+  // console.log("lib/chat/actions.tsx:118 getUIStateFromAIState");
   console.log(" aiState is: ", JSON.stringify(aiState));
   return aiState.messages
     .filter((message) => message.role !== "system")
@@ -150,10 +150,17 @@ const displayToolContent = (
 ) => {
   switch (toolName) {
     case "listAttractions":
+      // console.log(
+      //   `lib/chat/actions.tsx:154 displayToolContent returning attractions, ${toolName}, ${result.cityName}}`,
+      // );
       return (
         <BotCard>
           <Attractions
-            props={{ cityName: result, toolCallId, model: AVALIABLE_MODELS[1] }}
+            props={{
+              cityName: result.cityName,
+              toolCallId,
+              model: AVALIABLE_MODELS[1],
+            }}
           />
         </BotCard>
       );

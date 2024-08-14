@@ -56,7 +56,7 @@ export async function saveApiResponse(
     data: {
       id,
       name,
-      params,
+      params: JSON.parse(params),
     },
   });
   // 将结果存储在textContent表，这样当查询的时候，先通过name和param查找到id，

@@ -15,25 +15,26 @@ const Social = () => {
   };
   return (
     <div className="flex w-full flex-col items-center gap-y-2">
-      <div className="flex w-full items-center gap-x-2">
-        <Button
-          size="lg"
-          variant={"outline"}
-          className="w-full"
-          onClick={() => onClick("gitee")}
-        >
-          <SiGitee color="red" />
-        </Button>
-        <Button
-          size="lg"
-          variant={"outline"}
-          className="w-full"
-          onClick={() => onClick("dy")}
-        >
-          <FaTiktok />
-        </Button>
-      </div>
-      <div className="flex w-full items-center gap-x-2">
+      {/* <div className="flex w-full flex-col items-center gap-x-2"> */}
+      <Button
+        size="lg"
+        variant={"outline"}
+        className="w-full"
+        onClick={() => onClick("dy")}
+      >
+        <FaTiktok /> <span className="px-2 text-sm">抖音扫码登录</span>
+      </Button>
+      <Button
+        size="lg"
+        variant={"outline"}
+        className="w-full"
+        onClick={() => onClick("gitee")}
+      >
+        <SiGitee color="red" /> <span className="px-2">Gitee码云登录</span>
+      </Button>
+
+      {/* </div> */}
+      {/* <div className="flex w-full items-center gap-x-2">
         <Button
           size="lg"
           variant={"outline"}
@@ -50,7 +51,7 @@ const Social = () => {
         >
           <FcGoogle />
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
