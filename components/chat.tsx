@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, sleep } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { ChatList } from "@/components/chat-list";
 import { ChatPanel } from "@/components/chat-panel";
 import { EmptyScreen } from "@/components/empty-screen";
@@ -11,18 +11,6 @@ import { Message, Session } from "@/lib/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useScrollAnchor } from "@/lib/hooks/use-scroll-anchor";
 import { toast } from "sonner";
-import {
-  agentFromIndex,
-  agentIndex,
-  AVALIABLE_AGENTS,
-  AVALIABLE_MODELS,
-  DEFAULT_AGENT_PATH,
-  DEFAULT_AGENT_VALUE,
-  DEFAUTL_MODEL_VALUE,
-  modelFromIndex,
-  modelIndex,
-} from "@/routes";
-import AgentSelector from "./AgentSelector";
 
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[];
@@ -34,76 +22,71 @@ export interface ChatProps extends React.ComponentProps<"div"> {
 export function Chat({ id, className, session, missingKeys }: ChatProps) {
   const router = useRouter();
   const path = usePathname();
-  const searchParams = useSearchParams();
 
   const [input, setInput] = useState("");
   const [messages] = useUIState();
-  // console.log("messages is: ", messages);
   const [aiState] = useAIState();
 
   const [model, setModel] = useState("");
   const [agent, setAgent] = useState("");
 
-  useEffect(() => {
-    const prevModel = modelFromIndex(
-      parseInt(searchParams.get("model") || "0"),
-    );
-    if (!model) {
-      setModel(prevModel || AVALIABLE_MODELS[0]);
-    }
-    const prevAgent = agentFromIndex(
-      parseInt(searchParams.get("agent") || "0"),
-    );
-    if (!agent) {
-      setAgent(prevAgent || AVALIABLE_AGENTS[0]);
-    }
-
-    console.log(`${prevModel} -> ${model}`);
-    console.log(`${prevAgent} -> ${agent}`);
-  }, [searchParams]);
-
   const handleModelChange = (value: string) => {
-    console.log("path is: ", path);
     setModel(value);
     console.log("mode new value is:", value);
-    console.log(
-      `handleModelChange pushing to ${path}?agent=${agentIndex(agent)}&model=${modelIndex(value)}`,
-    );
-    router.push(
-      `${path}?agent=${agentIndex(agent)}&model=${modelIndex(value)}`,
-    );
-    router.refresh();
   };
 
   const handleAgentChange = (value: string) => {
     setAgent(value);
-    console.log(
-      `handleAgentChange pushing to ${path}?agent=${agentIndex(value)}&model=${modelIndex(model)}`,
-    );
-    router.push(
-      `${path}?agent=${agentIndex(value)}&model=${modelIndex(model)}`,
-    );
+    // console.log("agent new value is:", value);
   };
 
   const [_, setNewChatId] = useLocalStorage("newChatId", id);
 
   useEffect(() => {
-    const messagesLength = aiState.messages?.length;
-    console.log("components/chat.tsx:45", messagesLength, aiState.messages);
-    const chatId: string = aiState.chatId;
-    if (messagesLength === 2 || messagesLength === 3) {
-      console.log("start refreshing route: ", chatId);
-      setTimeout(() => {
-        console.log("start refreshing route: ", chatId);
-        console.log(`${agent} - ${model}`);
-        router.push(
-          `${DEFAULT_AGENT_PATH}/chat/${chatId}?&agent=${agentIndex(agent)}&model=${modelIndex(model)}`,
-        );
-        router.refresh();
-      }, 500);
-      // router.refresh();
+    if (session?.user) {
+      if (!path.includes("chat") && messages.length >= 1) {
+        window.history.replaceState({}, "", `/agent/chat/${id}`);
+      }
     }
-  }, [aiState.messages, aiState.chatId, router, searchParams, agent, model]);
+  }, [id, path, session?.user, messages]);
+
+  useEffect(() => {
+    const storedAgent = localStorage.getItem("agent");
+    //load agent
+    if (!agent && storedAgent) {
+      setAgent(storedAgent);
+      // console.log(`agent is updated from localStorage: ${storedAgent}`);
+    }
+    if (agent && agent !== storedAgent) {
+      localStorage.setItem("agent", agent);
+    }
+  }, [agent]);
+
+  useEffect(() => {
+    const storedModel = localStorage.getItem("model");
+    //load model
+    if (!model && storedModel) {
+      setModel(storedModel);
+      console.log(`model is updated from localStorage: ${storedModel}`);
+    }
+    //update local storage if needed
+    if (model && model !== storedModel) {
+      localStorage.setItem("model", model);
+    }
+  }, [model]);
+
+  useEffect(() => {
+    let timerId;
+    const messagesLength = aiState.messages?.length;
+    if (messagesLength === 2 || messagesLength === 3) {
+      console.log("start refreshing route timer: ");
+      if (!timerId) {
+        timerId = setTimeout(() => {
+          router.refresh();
+        }, 500);
+      }
+    }
+  }, [aiState.messages, router]);
 
   useEffect(() => {
     setNewChatId(id);
