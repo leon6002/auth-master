@@ -8,6 +8,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "simplebar-react/dist/simplebar.min.css";
 
 import { Toaster } from "@/components/ui/toaster";
+import { APILoader } from "@/components/react-amap-api-loader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,9 +33,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Toaster />
-          <Navbar />
-          {children}
+          <APILoader version="2.0.5" akey={process.env.GAODE_WEB_JS_KEY}>
+            <Toaster />
+            <Navbar />
+            {children}
+          </APILoader>
         </Providers>
       </body>
     </html>

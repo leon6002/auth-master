@@ -1,9 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/sdJLloHuD9l
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-
 "use client";
 import {
   Card,
@@ -25,7 +19,7 @@ import { ImageGallery } from "./image-gallery";
 import ImageGallerySkeleton from "./image-gallery-skeleton";
 import { Coordinates } from "@/lib/types";
 import { AttractionSkeleton } from "./attraction-skeleton";
-// import MapSearch from "../maps/map-search";
+import MapSearch from "../maps/map-search";
 
 interface AttractionCardProps {
   cityName: string;
@@ -80,9 +74,6 @@ export default function AttractionCard({
 
         <section className="mx-auto w-full max-w-3xl py-2 md:py-6">
           <div className="space-y-6">
-            {/* <h2 className="text-center text-3xl font-bold tracking-tighter md:text-4xl">
-              Frequently Asked Questions
-            </h2> */}
             <Accordion type="single" collapsible>
               <AccordionItem value="faq-1">
                 <AccordionTrigger className="flex w-full items-center justify-between rounded-lg bg-white px-4 py-3 text-left shadow-sm hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-gray-300 dark:bg-gray-950 dark:text-gray-50 dark:hover:bg-gray-800 dark:focus-visible:ring-gray-700">
@@ -136,7 +127,7 @@ export default function AttractionCard({
                   <div>{trafficBus}</div>
                   <div className="flex w-full flex-col">
                     <div className="h-[500px]">
-                      {/* <MapSearch gLngLat={glocation} /> */}
+                      <MapSearch gLngLat={glocation} />
                     </div>
                   </div>
                 </AccordionContent>
