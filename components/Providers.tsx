@@ -7,7 +7,7 @@ import { absoluteUrl } from "@/lib/utils";
 import { SidebarProvider } from "@/lib/hooks/use-sidebar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
-import { PropsWithChildren, useState } from "react";
+import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 const Providers = ({ children, ...props }: ThemeProviderProps) => {

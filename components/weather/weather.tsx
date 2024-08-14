@@ -1,35 +1,18 @@
 "use client";
-
-import { useActions, useUIState } from "ai/rsc";
-
+import { useUIState } from "ai/rsc";
 import type { AI } from "@/lib/chat/actions";
-import Image from "next/image";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import useWeather from "@/lib/hooks/use-weather";
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  cn,
   formatDateAndCheckDay,
-  isDateBeforeToday,
   nanoid,
 } from "@/lib/utils";
 import { WeatherSkeleton } from "./weather-skeleton";
 import WeatherBox from "./weather-box";
-import { ExtendedWeatherDayItem, WeatherDayItem } from "@/lib/types";
+import { ExtendedWeatherDayItem } from "@/lib/types";
 import { useRef } from "react";
 import { ArrowLeft, ArrowRight, Info } from "lucide-react";
 import { Button } from "../ui/button";
-import { WeatherSkeletonError } from "./weather-skeleton-error";
 
 interface WeatherProps {
   cityName: string;
@@ -46,11 +29,12 @@ export function Weather({
   const { weather, error, isLoading } = useWeather(cityName, toolCallId);
   if (error) {
     console.error(error);
-    return <WeatherSkeletonError />;
+    return <WeatherSkeleton message="天气数据加载失败" />;
   }
-  if (isLoading || !weather) {
-    return <WeatherSkeleton />;
+  if (isLoading) {
+    return <WeatherSkeleton message="天气数据加载中..." />;
   }
+  if (!weather) return null;
   function getTranslateX(element: any) {
     const style = window.getComputedStyle(element);
     const matrix = new DOMMatrixReadOnly(style.transform);

@@ -1,11 +1,6 @@
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Button, buttonVariants } from "./ui/button";
-// import {
-//   LoginLink,
-//   RegisterLink,
-//   getKindeServerSession,
-// } from '@kinde-oss/kinde-auth-nextjs/server'
 import { ArrowRight } from "lucide-react";
 import UserAccountNav from "./UserAccountNav";
 import MobileNav from "./MobileNav";
@@ -13,7 +8,6 @@ import { auth } from "@/auth";
 import LoginButton from "./auth/login-button";
 
 const Navbar = async () => {
-  // const { getUser } = getKindeServerSession();
   const session = await auth();
   if (!session?.user) return null;
 
@@ -53,7 +47,7 @@ const Navbar = async () => {
             ) : (
               <>
                 <Link
-                  href="/dashboard"
+                  href="/agent"
                   className={buttonVariants({
                     variant: "ghost",
                     size: "sm",

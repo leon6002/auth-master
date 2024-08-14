@@ -149,7 +149,6 @@ export const TravelAgentActions = async (content: string, model: string) => {
               },
             ],
           });
-
           return (
             <BotCard>
               <Attractions props={{ cityName, toolCallId, model }} />
@@ -165,7 +164,7 @@ export const TravelAgentActions = async (content: string, model: string) => {
         generate: async function* ({ scenicId }) {
           yield (
             <BotCard>
-              <AttractionSkeleton error={null} />
+              <AttractionSkeleton message={"景点信息加载中"} />
             </BotCard>
           );
 
@@ -219,7 +218,7 @@ export const TravelAgentActions = async (content: string, model: string) => {
         generate: async function* ({ cityName }) {
           yield (
             <BotCard>
-              <WeatherSkeleton />
+              <WeatherSkeleton message="天气数据加载中..." />
             </BotCard>
           );
 
@@ -293,7 +292,7 @@ export const getUIStateFromAIState = (aiState: Chat) => {
               <BotCard>
                 <Attractions
                   props={{
-                    cityName: result,
+                    cityName: result.cityName,
                     toolCallId,
                     model: AVALIABLE_MODELS[1],
                   }}
