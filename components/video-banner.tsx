@@ -36,6 +36,7 @@ const VideoBanner = () => {
           loop={true}
           autoPlay={true}
           playsInline={true}
+          muted={true}
         ></video>
         <div className="absolute left-0 top-0 -z-10 h-full w-full bg-black/20"></div>
         <div className="z-0 flex h-full w-full flex-col items-center justify-center">
