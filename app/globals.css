@@ -113,3 +113,19 @@
 .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
   border-radius: 7px;
 }
+
+
+.highlight {
+  isolation: isolate;
+  position: relative;
+  --tw-highlight-color: #000;
+  --tw-highlight-spread-t: 0;
+  --tw-highlight-spread-b: 0;
+  --tw-highlight-spread-l: 0;
+  --tw-highlight-spread-r: 0;
+  --tw-highlight-variant: url(https://raw.githubusercontent.com/jln13x/tailwindcss-highlights/main/highlights/1.svg);
+}
+
+.highlight-wanderboat-primary {
+  --tw-highlight-color: #fadb38;
+}

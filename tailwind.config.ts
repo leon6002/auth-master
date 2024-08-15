@@ -82,9 +82,18 @@ const config = {
         "collapsible-down": "accordion-down 1s ease-out",
         "collapsible-up": "accordion-up 1s ease-out",
       },
+      perspective: {
+        0: "0px",
+        300: "300px",
+        1200: "1200px",
+      },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+    require("@xpd/tailwind-3dtransforms"),
+  ],
 } satisfies Config;
 
 export default config;

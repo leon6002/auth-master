@@ -6,6 +6,7 @@ import UserAccountNav from "./UserAccountNav";
 import MobileNav from "./MobileNav";
 import { auth } from "@/auth";
 import LoginButton from "./auth/login-button";
+import Image from "next/image";
 
 const Navbar = async () => {
   const session = await auth();
@@ -14,11 +15,15 @@ const Navbar = async () => {
   const user = session.user;
 
   return (
-    <nav className="sticky inset-x-0 top-0 z-30 h-14 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all dark:border-zinc-700 dark:bg-zinc-950">
+    <nav className="sticky inset-x-0 top-0 z-30 h-14 w-full border-b border-gray-200/0 bg-white/20 backdrop-blur-lg transition-all dark:border-zinc-700 dark:bg-zinc-950">
       <MaxWidthWrapper>
-        <div className="flex h-14 items-center justify-between border-b border-zinc-200 dark:border-zinc-700">
-          <Link href="/" className="z-40 flex font-semibold">
-            <span>谷流仓AI</span>
+        <div className="flex h-14 items-center justify-between border-b border-zinc-200/0 dark:border-zinc-700">
+          <Link
+            href="/"
+            className="z-40 flex items-center font-semibold text-white"
+          >
+            <Image width={50} height={50} src="/logo.png" alt="logo" />
+            <span className="text-slate-500">谷流仓AI</span>
           </Link>
 
           <MobileNav isAuth={!!user} />
@@ -53,7 +58,7 @@ const Navbar = async () => {
                     size: "sm",
                   })}
                 >
-                  Dashboard
+                  开始
                 </Link>
 
                 <UserAccountNav
