@@ -32,7 +32,7 @@ const VideoBanner = () => {
         <video
           className="absolute left-0 top-0 -z-20 h-full w-full scale-110 object-cover"
           poster="https://d1mxhbgl8pz10s.cloudfront.net/other/frames-pc/12.jpg"
-          src="/landing-section/airviewbg.mp4"
+          src="https://storage.guliucang.com/video/airviewbg.mp4"
           loop={true}
           autoPlay={true}
           playsInline={true}
