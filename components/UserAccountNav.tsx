@@ -1,4 +1,3 @@
-// import { getUserSubscriptionPlan } from '@/lib/stripe'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,7 +33,7 @@ const UserAccountNav = async ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="overflow-visible">
-        <Button className="aspect-square h-8 w-8 rounded-full bg-slate-400">
+        <Button className="aspect-square h-8 w-8 rounded-full bg-slate-400 dark:bg-slate-900">
           <Avatar className="relative h-8 w-8">
             {imageUrl ? (
               <div className="relative aspect-square h-full w-full">
@@ -55,14 +54,15 @@ const UserAccountNav = async ({
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="bg-white" align="end">
+      <DropdownMenuContent
+        className="bg-neutral-50/90 dark:bg-neutral-950"
+        align="end"
+      >
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-0.5 leading-none">
-            {name && <p className="text-sm font-medium text-black">{name}</p>}
+            {name && <p className="text-sm font-medium text-primary">{name}</p>}
             {email && (
-              <p className="w-[200px] truncate text-xs text-zinc-700">
-                {email}
-              </p>
+              <p className="w-[200px] truncate text-xs text-primary">{email}</p>
             )}
           </div>
         </div>
@@ -70,15 +70,17 @@ const UserAccountNav = async ({
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/dashboard">Dashboard</Link>
+          <Link href="/agent" className="cursor-pointer pl-5">
+            对话
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
           {subscriptionPlan?.isSubscribed ? (
             <Link href="/dashboard/billing">Manage Subscription</Link>
           ) : (
-            <Link href="/pricing">
-              Upgrade <Gem className="ml-1.5 h-4 w-4 text-blue-600" />
+            <Link href="/pricing" className="cursor-pointer pl-5">
+              升级 <Gem className="ml-1.5 h-4 w-4 text-blue-600" />
             </Link>
           )}
         </DropdownMenuItem>
@@ -93,18 +95,9 @@ const UserAccountNav = async ({
             }}
           >
             <Button variant={"ghost"} className="flex" type="submit">
-              Logout
+              登出
             </Button>
           </form>
-          {/* <Button
-            variant="secondary"
-            onClick={async () => {
-              "use server";
-              await signOut();
-            }}
-          >
-            Log out
-          </Button> */}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

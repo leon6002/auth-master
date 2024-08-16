@@ -1,29 +1,26 @@
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
-import { Button, buttonVariants } from "./ui/button";
+import { buttonVariants } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import UserAccountNav from "./UserAccountNav";
 import MobileNav from "./MobileNav";
 import { auth } from "@/auth";
-import LoginButton from "./auth/login-button";
 import Image from "next/image";
 
 const Navbar = async () => {
   const session = await auth();
-  if (!session?.user) return null;
-
-  const user = session.user;
+  const user = session?.user;
 
   return (
-    <nav className="sticky inset-x-0 top-0 z-30 h-14 w-full border-b border-gray-200/0 bg-white/20 backdrop-blur-lg transition-all dark:border-zinc-700 dark:bg-zinc-950">
+    <nav className="sticky inset-x-0 top-0 z-30 h-14 w-full border-b border-gray-200/0 bg-white/20 backdrop-blur-lg transition-all dark:border-zinc-700/0">
       <MaxWidthWrapper>
-        <div className="flex h-14 items-center justify-between border-b border-zinc-200/0 dark:border-zinc-700">
+        <div className="flex h-14 items-center justify-between border-b border-zinc-200/0 dark:border-zinc-700/0">
           <Link
             href="/"
             className="z-40 flex items-center font-semibold text-white"
           >
             <Image width={50} height={50} src="/logo.png" alt="logo" />
-            <span className="text-slate-500">谷流仓AI</span>
+            {/* <span className="text-slate-200">谷流仓AI</span> */}
           </Link>
 
           <MobileNav isAuth={!!user} />
@@ -32,30 +29,25 @@ const Navbar = async () => {
             {!user ? (
               <>
                 <Link
-                  href="/pricing"
+                  href="/agent"
                   className={buttonVariants({
                     variant: "ghost",
-                    size: "sm",
+                    size: "lg",
+                    className: "text-white/50",
                   })}
                 >
-                  Pricing
+                  开始
+                  <ArrowRight className="ml-1.5 h-5 w-5" />
                 </Link>
-                <LoginButton mode="redirect">Sign in</LoginButton>
-                <Button
-                  className={buttonVariants({
-                    size: "sm",
-                  })}
-                >
-                  Get started <ArrowRight className="ml-1.5 h-5 w-5" />
-                </Button>
               </>
             ) : (
               <>
                 <Link
                   href="/agent"
                   className={buttonVariants({
-                    variant: "ghost",
-                    size: "sm",
+                    variant: "link",
+                    size: "icon",
+                    className: "text-white/50",
                   })}
                 >
                   开始

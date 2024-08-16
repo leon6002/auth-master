@@ -34,7 +34,7 @@ export function Attractions({
         {attractions.map((attraction) => (
           <button
             key={attraction.scenicId}
-            className="flex cursor-pointer flex-col gap-2 rounded-lg bg-secondary p-2 text-left hover:bg-primary/10 dark:bg-zinc-800 sm:w-52"
+            className="flex cursor-pointer flex-col gap-2 rounded-lg border bg-secondary/20 p-2 text-left hover:bg-primary/10 dark:bg-zinc-800 sm:w-52"
             onClick={async () => {
               console.log(
                 `submitUserMessage from listAttraction, ${model}, ${attraction.scenicId}}`,
