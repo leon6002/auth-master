@@ -22,7 +22,7 @@ const IntroPage = () => {
     });
 
     timeline.from(attractionsSideBar.current, {
-      transform: `perspective(1200px) translateY(200px)`,
+      transform: `perspective(1200px) translateY(400px)`,
     });
     //   .to(introImage.current, { height: "0px" }, 0);
   }, []);
@@ -33,18 +33,18 @@ const IntroPage = () => {
         <div className="sticky top-2 h-full w-full overflow-hidden">
           <ul
             ref={attractionsSideBar}
-            className="perspective-1200 rotate-x-0 flex h-full w-max -translate-y-[800px] flex-row items-center gap-4 md:h-max md:w-full md:flex-col"
+            className="perspective-1200 rotate-x-0 flex h-full w-max -translate-y-[850px] flex-row items-center gap-4 md:h-max md:w-full md:flex-col"
           >
             <li>
               <a
                 className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
                 target="_blank"
-                href="/"
+                href="/agent"
               >
                 <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
                   <Image
                     className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
+                    src="https://storage.guliucang.com/travel/IMG_7897.jpg?format,webp"
                     alt="attractions"
                     fill={true}
                   />
@@ -52,20 +52,8 @@ const IntroPage = () => {
                 <div className="mt-auto flex h-[126px] w-full items-center">
                   <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
                     <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
+                      七彩丹霞
                     </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
                   </div>
                 </div>
               </a>
@@ -74,33 +62,19 @@ const IntroPage = () => {
               <a
                 className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
                 target="_blank"
-                href="/"
+                href="/agent"
               >
                 <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
                   <Image
                     className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
+                    src="https://storage.guliucang.com/travel/IMG_7898.jpg?format,webp"
                     alt="attractions"
                     fill={true}
                   />
                 </div>
                 <div className="mt-auto flex h-[126px] w-full items-center">
                   <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
-                    </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
+                    <h3 className="text-3xl font-bold text-slate-50">黑独山</h3>
                   </div>
                 </div>
               </a>
@@ -109,33 +83,19 @@ const IntroPage = () => {
               <a
                 className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
                 target="_blank"
-                href="/"
+                href="/agent"
               >
                 <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
                   <Image
                     className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
+                    src="https://storage.guliucang.com/travel/IMG_7907.jpg?format,webp"
                     alt="attractions"
                     fill={true}
                   />
                 </div>
                 <div className="mt-auto flex h-[126px] w-full items-center">
                   <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
-                    </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
+                    <h3 className="text-3xl font-bold text-slate-50">九寨沟</h3>
                   </div>
                 </div>
               </a>
@@ -144,12 +104,12 @@ const IntroPage = () => {
               <a
                 className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
                 target="_blank"
-                href="/"
+                href="/agent"
               >
                 <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
                   <Image
                     className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
+                    src="https://storage.guliucang.com/travel/IMG_7914.jpg?format,webp"
                     alt="attractions"
                     fill={true}
                   />
@@ -157,20 +117,8 @@ const IntroPage = () => {
                 <div className="mt-auto flex h-[126px] w-full items-center">
                   <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
                     <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
+                      赛里木湖
                     </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
                   </div>
                 </div>
               </a>
@@ -179,12 +127,12 @@ const IntroPage = () => {
               <a
                 className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
                 target="_blank"
-                href="/"
+                href="/agent"
               >
                 <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
                   <Image
                     className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
+                    src="https://storage.guliucang.com/travel/IMG_7920.jpg?format,webp"
                     alt="attractions"
                     fill={true}
                   />
@@ -192,20 +140,8 @@ const IntroPage = () => {
                 <div className="mt-auto flex h-[126px] w-full items-center">
                   <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
                     <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
+                      贡嘎雪山
                     </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
                   </div>
                 </div>
               </a>
@@ -214,12 +150,12 @@ const IntroPage = () => {
               <a
                 className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
                 target="_blank"
-                href="/"
+                href="/agent"
               >
                 <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
                   <Image
                     className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
+                    src="https://storage.guliucang.com/travel/IMG_7922.jpg?format,webp"
                     alt="attractions"
                     fill={true}
                   />
@@ -227,20 +163,8 @@ const IntroPage = () => {
                 <div className="mt-auto flex h-[126px] w-full items-center">
                   <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
                     <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
+                      喀拉峻草原
                     </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
                   </div>
                 </div>
               </a>
@@ -249,33 +173,19 @@ const IntroPage = () => {
               <a
                 className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
                 target="_blank"
-                href="/"
+                href="/agent"
               >
                 <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
                   <Image
                     className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
+                    src="https://storage.guliucang.com/travel/IMG_7924.jpg?format,webp"
                     alt="attractions"
                     fill={true}
                   />
                 </div>
                 <div className="mt-auto flex h-[126px] w-full items-center">
                   <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
-                    </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
+                    <h3 className="text-3xl font-bold text-slate-50">禾木</h3>
                   </div>
                 </div>
               </a>
@@ -284,12 +194,12 @@ const IntroPage = () => {
               <a
                 className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
                 target="_blank"
-                href="/"
+                href="/agent"
               >
                 <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
                   <Image
                     className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
+                    src="https://storage.guliucang.com/travel/IMG_7925.jpg?format,webp"
                     alt="attractions"
                     fill={true}
                   />
@@ -297,160 +207,8 @@ const IntroPage = () => {
                 <div className="mt-auto flex h-[126px] w-full items-center">
                   <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
                     <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
+                      青海红河谷
                     </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
-                    </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
-                    </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
-                    </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="/test1.jpeg"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      Louvre Museum
-                    </h3>
-                    <div className="mx-0.5 my-1 flex items-center gap-3">
-                      <div className="flex items-center justify-start">
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                        <StarFilledIcon className="size-7" />
-                      </div>
-                      <p className="font-semibold text-slate-50">
-                        4.7 · (95713)
-                      </p>
-                    </div>
                   </div>
                 </div>
               </a>
