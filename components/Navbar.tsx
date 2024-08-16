@@ -20,7 +20,6 @@ const Navbar = async () => {
             className="z-40 flex items-center font-semibold text-white"
           >
             <Image width={50} height={50} src="/logo.png" alt="logo" />
-            {/* <span className="text-slate-200">谷流仓AI</span> */}
           </Link>
 
           <MobileNav isAuth={!!user} />

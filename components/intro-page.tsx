@@ -1,5 +1,4 @@
 "use client";
-import { StarFilledIcon } from "@radix-ui/react-icons";
 import React, { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
@@ -26,6 +25,49 @@ const IntroPage = () => {
     });
     //   .to(introImage.current, { height: "0px" }, 0);
   }, []);
+
+  const ImageList = [
+    {
+      id: 1,
+      src: `/travel/IMG_7897.jpg?format,webp`,
+      name: "七彩丹霞",
+    },
+    {
+      id: 2,
+      src: `/travel/IMG_7898.jpg?format,webp`,
+      name: "黑独山",
+    },
+    {
+      id: 3,
+      src: `/travel/IMG_7907.jpg?format,webp`,
+      name: "九寨沟",
+    },
+    {
+      id: 4,
+      src: `/travel/IMG_7914.jpg?format,webp`,
+      name: "赛里木湖",
+    },
+    {
+      id: 5,
+      src: `/travel/IMG_7920.jpg?format,webp`,
+      name: "贡嘎雪山",
+    },
+    {
+      id: 6,
+      src: `/travel/IMG_7922.jpg?format,webp`,
+      name: "喀拉峻草原",
+    },
+    {
+      id: 7,
+      src: `/travel/IMG_7924.jpg?format,webp`,
+      name: "禾木",
+    },
+    {
+      id: 8,
+      src: `/travel/IMG_7925.jpg?format,webp`,
+      name: "青海红河谷",
+    },
+  ];
   return (
     <section className="relative grid h-screen min-h-screen w-screen grid-cols-1 bg-[url('/landing-section/bg-section-1.png')] bg-cover bg-bottom bg-no-repeat md:!grid-cols-2 md:!grid-rows-1">
       <div className="absolute left-0 top-0 h-full w-full bg-white opacity-55"></div>
@@ -35,184 +77,31 @@ const IntroPage = () => {
             ref={attractionsSideBar}
             className="perspective-1200 rotate-x-0 flex h-full w-max -translate-y-[850px] flex-row items-center gap-4 md:h-max md:w-full md:flex-col"
           >
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/agent"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="https://storage.guliucang.com/travel/IMG_7897.jpg?format,webp"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      七彩丹霞
-                    </h3>
+            {ImageList.map((img) => (
+              <li key={img.id}>
+                <a
+                  className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
+                  target="_blank"
+                  href="/agent"
+                >
+                  <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
+                    <Image
+                      className="absolute inset-0 object-cover"
+                      src={process.env.NEXT_PUBLIC_OSS_HOST + img.src}
+                      alt="attractions"
+                      fill={true}
+                    />
                   </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/agent"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="https://storage.guliucang.com/travel/IMG_7898.jpg?format,webp"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">黑独山</h3>
+                  <div className="mt-auto flex h-[126px] w-full items-center">
+                    <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
+                      <h3 className="text-3xl font-bold text-slate-50">
+                        {img.name}
+                      </h3>
+                    </div>
                   </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/agent"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="https://storage.guliucang.com/travel/IMG_7907.jpg?format,webp"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">九寨沟</h3>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/agent"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="https://storage.guliucang.com/travel/IMG_7914.jpg?format,webp"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      赛里木湖
-                    </h3>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/agent"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="https://storage.guliucang.com/travel/IMG_7920.jpg?format,webp"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      贡嘎雪山
-                    </h3>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/agent"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="https://storage.guliucang.com/travel/IMG_7922.jpg?format,webp"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      喀拉峻草原
-                    </h3>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/agent"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="https://storage.guliucang.com/travel/IMG_7924.jpg?format,webp"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">禾木</h3>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                className="group relative z-0 flex h-[219px] w-[370px] max-w-[80vw] shrink-0 flex-col overflow-hidden rounded-2xl border-[0.5px] border-black/20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.25)]"
-                target="_blank"
-                href="/agent"
-              >
-                <div className="absolute -z-10 h-full w-full transition-all duration-500 group-hover:scale-105">
-                  <Image
-                    className="absolute inset-0 object-cover"
-                    src="https://storage.guliucang.com/travel/IMG_7925.jpg?format,webp"
-                    alt="attractions"
-                    fill={true}
-                  />
-                </div>
-                <div className="mt-auto flex h-[126px] w-full items-center">
-                  <div className="flex h-full flex-1 flex-col justify-center px-4 pt-7">
-                    <h3 className="text-3xl font-bold text-slate-50">
-                      青海红河谷
-                    </h3>
-                  </div>
-                </div>
-              </a>
-            </li>
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

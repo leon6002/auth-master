@@ -15,7 +15,7 @@ export default function Home() {
             font.className,
           )}
         >
-          谷流仓AI
+          ${process.env.NEXT_PUBLIC_COMPANY_NAME}
         </h1>
         <p className="text-center text-lg text-white">
           有趣实用的AI工具箱 - AI文档对话、AI文本转换语音

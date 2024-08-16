@@ -1,38 +1,15 @@
 "use client";
-import { ArrowDownCircle, SendHorizonal } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { Button } from "./ui/button";
+import { SendHorizonal } from "lucide-react";
+import React from "react";
 
 const VideoBanner = () => {
-  const [scrollPosition, setScrollPosition] = useState(0);
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-  const handleButtonClick = () => {
-    const currentPosition = scrollPosition;
-    const windowHeight = window.innerHeight;
-    const targetPosition = currentPosition + windowHeight / 1.4;
-
-    window.scrollTo({
-      top: targetPosition,
-      behavior: "smooth", // 平滑滚动
-    });
-  };
   return (
     <>
       <div className="min-w-screen relative z-0 h-[95dvh] min-h-[95dvh] w-screen overflow-hidden">
         <video
           className="absolute left-0 top-0 -z-20 h-full w-full scale-110 object-cover"
-          poster="https://d1mxhbgl8pz10s.cloudfront.net/other/frames-pc/12.jpg"
-          src="https://storage.guliucang.com/video/airviewbg.mp4"
+          poster="/video-bg-placeholder.jpg"
+          src={`${process.env.NEXT_PUBLIC_OSS_HOST}/video/airviewbg.mp4`}
           loop={true}
           autoPlay={true}
           playsInline={true}
@@ -76,17 +53,6 @@ const VideoBanner = () => {
               <SendHorizonal />
             </button>
           </a>
-        </div>
-      </div>
-      <div className="relative w-full">
-        <div className="absolute left-0 top-1 z-20 flex w-full justify-center">
-          <Button
-            variant={"ghost"}
-            className="animate-pulse"
-            onClick={handleButtonClick}
-          >
-            <ArrowDownCircle className="size-8 animate-pulse" />
-          </Button>
         </div>
       </div>
     </>

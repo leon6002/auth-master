@@ -1,7 +1,10 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import VideoBanner from "@/components/video-banner";
 import IntroPage from "@/components/intro-page";
+import { Button } from "@/components/ui/button";
+import { ArrowDownCircle } from "lucide-react";
+import { Footer } from "@/components/footer";
 
 export default function Home() {
   useEffect(() => {
@@ -19,14 +22,36 @@ export default function Home() {
       });
     })();
   }, []);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const handleButtonClick = () => {
+    //todo scroll not working
+    if (scrollRef.current) {
+      const currentScrollTop = scrollRef.current.scrollTop;
+      scrollRef.current.scrollTo({
+        top: currentScrollTop + 800,
+        behavior: "smooth", // 可选：添加平滑滚动效果
+      });
+    }
+  };
 
   return (
-    <>
-      <main className="-mt-14 min-h-screen w-screen">
-        <VideoBanner />
-        <IntroPage />
-        <div className="h-[100vh] w-full"></div>
-      </main>
-    </>
+    <main ref={scrollRef} className="-mt-14 min-h-screen w-screen">
+      <VideoBanner />
+      <div className="relative w-full">
+        <div className="absolute left-0 top-1 z-20 flex w-full justify-center">
+          <Button
+            variant={"ghost"}
+            className="animate-pulse cursor-default"
+            onClick={handleButtonClick}
+          >
+            <ArrowDownCircle className="size-8 animate-pulse" />
+          </Button>
+        </div>
+      </div>
+      <IntroPage />
+      <div className="h-[100vh] w-full"></div>
+      <Footer />
+    </main>
   );
 }

@@ -8,8 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function constructMetadata({
-  title = "谷流仓AI - AI文档对话",
-  description = "谷流仓AI，有趣实用的AI工具箱 - AI文档对话、AI文本转换语音",
+  title = process.env.NEXT_PUBLIC_META_TITLE,
+  description = process.env.NEXT_PUBLIC_META_DESCRIPTION,
   image = "/thumbnail.png",
   icons = "/favicon.ico",
   noIndex = false,
@@ -40,7 +40,7 @@ export function constructMetadata({
       creator: "@joshtriedcoding",
     },
     icons,
-    metadataBase: new URL("https://quill-jet.vercel.app"),
+    metadataBase: new URL(`${process.env.NEXT_PUBLIC_META_URL}`),
     themeColor: "#FFF",
     ...(noIndex && {
       robots: {
