@@ -8,6 +8,12 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
+# 设置代理环境变量
+ARG http_proxy
+ARG https_proxy
+ENV http_proxy=$http_proxy
+ENV https_proxy=$https_proxy
+
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN npm config set registry 'https://registry.npmmirror.com/'
