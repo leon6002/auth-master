@@ -39,6 +39,10 @@ export default auth(
   },
 );
 
+export function middleware(request: NextRequest) {
+  // Middleware logic
+}
+
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
