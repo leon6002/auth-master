@@ -27,13 +27,13 @@ export function ChatList({ messages, session, isShared }: ChatList) {
             <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
               <p className="leading-normal text-muted-foreground">
                 Please{" "}
-                <Link href="/login" className="underline">
+                <Link href="/auth/login" className="underline">
                   log in
                 </Link>{" "}
-                or{" "}
+                {/* or{" "}
                 <Link href="/signup" className="underline">
                   sign up
-                </Link>{" "}
+                </Link>{" "} */}
                 to save and revisit your chat history!
               </p>
             </div>

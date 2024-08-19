@@ -4,7 +4,6 @@ import React from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { IconPlus } from "@/components/ui/icons";
 import { DEFAULT_AGENT_PATH } from "@/routes";
-import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 
