@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import VideoBanner from "@/components/video-banner";
 import IntroPage from "@/components/intro-page";
+import EndPage from "@/components/end-page";
 import { Button } from "@/components/ui/button";
 import { ArrowDownCircle } from "lucide-react";
 import { Footer } from "@/components/footer";
@@ -50,7 +51,7 @@ export default function Home() {
         </div>
       </div>
       <IntroPage />
-      <div className="h-[100vh] w-full"></div>
+      <EndPage />
       <Footer />
     </main>
   );
