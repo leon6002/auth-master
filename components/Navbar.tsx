@@ -28,30 +28,19 @@ const Navbar = async () => {
             {!user ? (
               <>
                 <Link
-                  href="/agent"
+                  href="/auth/login"
                   className={buttonVariants({
-                    variant: "ghost",
+                    variant: "link",
                     size: "lg",
-                    className: "text-white/50",
+                    className: "",
                   })}
                 >
-                  开始
+                  登录
                   <ArrowRight className="ml-1.5 h-5 w-5" />
                 </Link>
               </>
             ) : (
               <>
-                <Link
-                  href="/agent"
-                  className={buttonVariants({
-                    variant: "link",
-                    size: "icon",
-                    className: "text-white/50",
-                  })}
-                >
-                  开始
-                </Link>
-
                 <UserAccountNav
                   name={!user.name ? "Your Account" : `${user.name}`}
                   email={

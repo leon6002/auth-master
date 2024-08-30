@@ -26,15 +26,15 @@ export function ChatList({ messages, session, isShared }: ChatList) {
             </div>
             <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
               <p className="leading-normal text-muted-foreground">
-                Please{" "}
+                请{" "}
                 <Link href="/auth/login" className="underline">
-                  log in
+                  登录
                 </Link>{" "}
                 {/* or{" "}
                 <Link href="/signup" className="underline">
                   sign up
                 </Link>{" "} */}
-                to save and revisit your chat history!
+                以保存和查看您的聊天记录！
               </p>
             </div>
           </div>
