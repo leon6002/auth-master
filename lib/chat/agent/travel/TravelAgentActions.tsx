@@ -19,8 +19,8 @@ import { AVALIABLE_MODELS } from "@/routes";
 import { AttractionSkeleton } from "@/components/attractions/attraction-skeleton";
 
 export const TravelAgentActions = async (content: string, model: string) => {
-  if (!model || model === AVALIABLE_MODELS[0]) {
-    model = AVALIABLE_MODELS[1];
+  if (!model) {
+    model = AVALIABLE_MODELS[0];
   }
   const aiState = getMutableAIState<typeof AI>();
 

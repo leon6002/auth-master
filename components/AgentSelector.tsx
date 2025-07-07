@@ -59,9 +59,7 @@ const AgentSelector = ({
         <SelectContent>
           <SelectGroup>
             <SelectLabel>模型</SelectLabel>
-            <SelectItem value="qwen-max-latest" disabled>
-              千问max
-            </SelectItem>
+            <SelectItem value="qwen-max-latest">千问max</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

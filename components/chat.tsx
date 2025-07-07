@@ -4,13 +4,42 @@ import { cn } from "@/lib/utils";
 import { ChatList } from "@/components/chat-list";
 import { ChatPanel } from "@/components/chat-panel";
 import { EmptyScreen } from "@/components/empty-screen";
-import { useLocalStorage } from "@/lib/hooks/use-local-storage";
 import { useEffect, useState } from "react";
 import { useUIState, useAIState } from "ai/rsc";
 import { Message, Session } from "@/lib/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useScrollAnchor } from "@/lib/hooks/use-scroll-anchor";
 import { toast } from "sonner";
+
+// 泛型本地存储 Hook
+function useLocalStorageState<T>(
+  key: string,
+  initialValue: T,
+): [T, (value: T) => void] {
+  // 从本地存储获取初始值
+  const getInitialValue = (): T => {
+    try {
+      const storedValue = localStorage.getItem(key);
+      return storedValue ? JSON.parse(storedValue) : initialValue;
+    } catch (error) {
+      console.error(`Failed to load ${key} from localStorage:`, error);
+      return initialValue;
+    }
+  };
+
+  const [value, setValue] = useState<T>(getInitialValue);
+
+  // 同步值到本地存储
+  useEffect(() => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error(`Failed to save ${key} to localStorage:`, error);
+    }
+  }, [key, value]);
+
+  return [value, setValue];
+}
 
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[];
@@ -27,21 +56,26 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   const [messages] = useUIState();
   const [aiState] = useAIState();
 
-  const [model, setModel] = useState("");
-  const [agent, setAgent] = useState("");
+  // 使用本地存储 Hook 初始化模型和代理
+  const [model, setModel] = useLocalStorageState<string>(
+    "model",
+    "qwen-max-latest",
+  );
+  const [agent, setAgent] = useLocalStorageState<string>("agent", "");
 
-  const handleModelChange = (value: string) => {
+  // 类型安全的事件处理函数
+  const handleModelChange = (value: string): void => {
     setModel(value);
-    console.log("mode new value is:", value);
+    console.log("model new value is:", value);
   };
 
-  const handleAgentChange = (value: string) => {
+  const handleAgentChange = (value: string): void => {
     setAgent(value);
-    // console.log("agent new value is:", value);
   };
 
-  const [_, setNewChatId] = useLocalStorage("newChatId", id);
+  const [_, setNewChatId] = useState<string | undefined>(id);
 
+  // 导航逻辑
   useEffect(() => {
     if (session?.user) {
       if (!path.includes("chat") && messages.length >= 1) {
@@ -50,60 +84,42 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
     }
   }, [id, path, session?.user, messages]);
 
+  // 定时刷新逻辑
   useEffect(() => {
-    const storedAgent = localStorage.getItem("agent");
-    //load agent
-    if (!agent && storedAgent) {
-      setAgent(storedAgent);
-      // console.log(`agent is updated from localStorage: ${storedAgent}`);
-    }
-    if (agent && agent !== storedAgent) {
-      localStorage.setItem("agent", agent);
-    }
-  }, [agent]);
-
-  useEffect(() => {
-    const storedModel = localStorage.getItem("model");
-    //load model
-    if (!model && storedModel) {
-      setModel(storedModel);
-      console.log(`model is updated from localStorage: ${storedModel}`);
-    }
-    //update local storage if needed
-    if (model && model !== storedModel) {
-      localStorage.setItem("model", model);
-    }
-  }, [model]);
-
-  useEffect(() => {
-    let timerId;
+    let timerId: NodeJS.Timeout | null = null;
     const messagesLength = aiState.messages?.length;
+
     if (messagesLength === 2 || messagesLength === 3) {
       console.log("start refreshing route timer: ");
-      if (!timerId) {
-        timerId = setTimeout(() => {
-          router.refresh();
-        }, 500);
-      }
+      timerId = setTimeout(() => {
+        router.refresh();
+      }, 500);
     }
+
+    return () => {
+      if (timerId) clearTimeout(timerId);
+    };
   }, [aiState.messages, router]);
 
+  // 更新聊天 ID
   useEffect(() => {
     setNewChatId(id);
-  });
+  }, [id]);
 
+  // 环境变量缺失提示
   useEffect(() => {
-    missingKeys.map((key) => {
+    missingKeys.forEach((key) => {
       toast.error(`Missing ${key} environment variable!`);
     });
   }, [missingKeys]);
 
+  // 滚动锚点管理
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
     useScrollAnchor();
 
   return (
     <div
-      className="group w-full overflow-y-scroll pl-0 pr-[420px] transition-all duration-300 ease-in-out peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
+      className="group w-full overflow-y-scroll pl-0 transition-all duration-300 ease-in-out peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
       ref={scrollRef}
     >
       <div
