@@ -25,7 +25,7 @@ const AgentSelector = ({
 }: AgentSelectorProps) => {
   const onAgentChange = (value: string) => {
     if (value !== "general" && (!model || model === "llama3.1:8b")) {
-      handleModelChange("gpt-4o-mini");
+      handleModelChange("qwen-max-latest");
     }
     handleAgentChange(value);
   };
@@ -44,26 +44,24 @@ const AgentSelector = ({
             <SelectLabel>助手类型</SelectLabel>
             <SelectItem value="general">普通助手</SelectItem>
             <SelectItem value="travel">旅游规划助手</SelectItem>
-            <SelectItem value="stock">股票助手</SelectItem>
+            {/* <SelectItem value="stock">股票助手</SelectItem> */}
           </SelectGroup>
         </SelectContent>
       </Select>
       <Select
         onValueChange={handleModelChange}
         value={model}
-        defaultValue={"llama3.1:8b"}
+        defaultValue={"qwen-max-latest"}
       >
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="llama3.1:8b" />
+          <SelectValue placeholder="千问max" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>模型</SelectLabel>
-            <SelectItem value="llama3.1:8b" disabled={agent !== "general"}>
-              llama3.1:8b
+            <SelectItem value="qwen-max-latest" disabled>
+              千问max
             </SelectItem>
-            <SelectItem value="gpt-4o-mini">gpt-4o-mini</SelectItem>
-            <SelectItem value="gpt-4o">gpt-4o</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

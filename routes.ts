@@ -13,10 +13,10 @@ export const DEFAULT_LOGIN_REDIRECT = "/agent";
 export const DEFAULT_AGENT_PATH = "/agent";
 
 export const DEFAULT_AGENT_VALUE = "general";
-export const DEFAUTL_MODEL_VALUE = "llama3.1:8b";
+export const DEFAUTL_MODEL_VALUE = "qwen-max-latest";
 
 export const AVALIABLE_AGENTS = ["general", "travel", "stock"];
-export const AVALIABLE_MODELS = ["llama3.1:8b", "gpt-4o-mini", "gpt-4o"];
+export const AVALIABLE_MODELS = ["qwen-max-latest"];
 
 export const modelIndex = (model: string): number => {
   if (!model || AVALIABLE_MODELS.indexOf(model) === -1) {

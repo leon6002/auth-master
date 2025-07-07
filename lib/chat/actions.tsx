@@ -25,7 +25,7 @@ async function submitUserMessage(
 ) {
   "use server";
   console.log(`submitUserMessage params: model: ${model}, agent: ${agent}`);
-  const modelList = ["llama3.1:8b", "gpt-4o", "gpt-4o-mini"];
+  const modelList = ["qwen-max-latest"];
   if (!model || !modelList.includes(model)) {
     model = modelList[0];
   }
