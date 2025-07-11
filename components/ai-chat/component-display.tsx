@@ -1,7 +1,15 @@
 "use client";
 
-import React, { useMemo, useEffect, useRef } from "react";
+import React, { useMemo, useEffect, useRef, useCallback } from "react";
 import { UIState } from "@/lib/chat/actions";
+import {
+  Layers,
+  MapPin,
+  Cloud,
+  TrendingUp,
+  ShoppingCart,
+  Wrench,
+} from "lucide-react";
 
 interface ComponentDisplayProps {
   messages: UIState;
@@ -106,6 +114,7 @@ function getComponentInfo(element: any): { type: string; description: string } {
 
 export function ComponentDisplay({ messages }: ComponentDisplayProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const lastMessageCountRef = useRef(0);
 
   // 提取所有包含功能组件的消息
   const componentMessages = useMemo(() => {
@@ -121,38 +130,70 @@ export function ComponentDisplay({ messages }: ComponentDisplayProps) {
       }));
   }, [messages]);
 
+  // 滚动到底部的函数
+  const scrollToBottom = useCallback(() => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, []);
+
   // 自动滚动到最新组件
   useEffect(() => {
-    if (componentMessages.length > 0 && scrollContainerRef.current) {
-      // 延迟滚动，确保DOM已更新
-      setTimeout(() => {
-        if (scrollContainerRef.current) {
-          // 添加额外的偏移量确保完全滚动到底部
-          const container = scrollContainerRef.current;
-          container.scrollTo({
-            top: container.scrollHeight + 50, // 额外50px偏移
-            behavior: "smooth",
-          });
-        }
-      }, 100);
+    if (
+      componentMessages.length > lastMessageCountRef.current &&
+      scrollContainerRef.current
+    ) {
+      lastMessageCountRef.current = componentMessages.length;
+
+      // 多次尝试滚动，确保内容完全加载后滚动
+      const timeouts = [100, 300, 600, 1000];
+      timeouts.forEach((delay) => {
+        setTimeout(scrollToBottom, delay);
+      });
     }
-  }, [componentMessages.length]);
+  }, [componentMessages.length, scrollToBottom]);
+
+  // 监听容器内容变化，自动滚动
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const observer = new MutationObserver(() => {
+      // 当内容发生变化时，延迟滚动到底部
+      setTimeout(scrollToBottom, 100);
+    });
+
+    observer.observe(container, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["style", "class"],
+    });
+
+    return () => observer.disconnect();
+  }, [scrollToBottom]);
 
   // 获取组件类型图标
   const getComponentIcon = (type: string) => {
+    const iconProps = { size: 16, className: "text-blue-500" };
+
     switch (type) {
       case "attractions":
       case "attraction":
-        return "🏛️";
+        return <MapPin {...iconProps} />;
       case "weather":
-        return "🌤️";
+        return <Cloud {...iconProps} />;
       case "stocks":
       case "stock":
-        return "📈";
+        return <TrendingUp {...iconProps} />;
       case "purchase":
-        return "🛒";
+        return <ShoppingCart {...iconProps} />;
       default:
-        return "🔧";
+        return <Wrench {...iconProps} />;
     }
   };
 
@@ -160,7 +201,7 @@ export function ComponentDisplay({ messages }: ComponentDisplayProps) {
     return (
       <div className="flex h-full items-center justify-center p-8">
         <div className="text-center">
-          <div className="mb-4 text-4xl">🎯</div>
+          <div className="mb-4 text-4xl opacity-50">🎯</div>
           <h3 className="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
             组件展示区域
           </h3>
@@ -176,52 +217,54 @@ export function ComponentDisplay({ messages }: ComponentDisplayProps) {
   }
 
   return (
-    <div className="h-full p-6">
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-          对话组件
-        </h2>
-        <p className="text-sm text-gray-600 dark:text-gray-400">
-          共 {componentMessages.length} 个组件
-        </p>
+    <div className="relative h-full bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-pink-50/30 dark:from-gray-900/50 dark:via-blue-900/30 dark:to-purple-900/50">
+      {/* 背景装饰元素 */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute right-10 top-10 h-32 w-32 rounded-full bg-blue-200/20 blur-xl"></div>
+        <div className="absolute left-8 top-40 h-24 w-24 rounded-full bg-purple-200/20 blur-lg"></div>
+        <div className="absolute bottom-20 right-16 h-40 w-40 rounded-full bg-pink-200/20 blur-2xl"></div>
+        <div className="absolute bottom-40 left-12 h-20 w-20 rounded-full bg-indigo-200/20 blur-lg"></div>
       </div>
 
+      {/* 玻璃半透明头部 */}
+      <div className="glass-effect dark:glass-effect-dark sticky top-0 z-10">
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center space-x-2">
+            <Layers size={18} className="text-blue-500" />
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              {componentMessages.length}
+            </span>
+          </div>
+          <div className="flex items-center space-x-1">
+            {/* 显示最近的组件类型图标 */}
+            {componentMessages.slice(-3).map((message) => (
+              <div key={message.id} className="opacity-60">
+                {getComponentIcon(message.componentInfo.type)}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 滚动内容区域 */}
       <div
         ref={scrollContainerRef}
-        className="max-h-[calc(100vh-200px)] space-y-6 overflow-y-auto pb-8"
+        className="h-[calc(100%-60px)] space-y-4 overflow-y-auto p-4"
       >
-        {componentMessages.map((message, index) => (
+        {componentMessages.map((message) => (
           <div
             key={message.id}
-            className="rounded-lg border bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+            className="glass-effect dark:glass-effect-dark rounded-xl p-4 shadow-lg transition-all duration-200 hover:bg-white/60 hover:shadow-xl dark:hover:bg-gray-800/60"
           >
-            <div className="mb-3 flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <span className="text-lg">
-                  {getComponentIcon(message.componentInfo.type)}
-                </span>
-                <div>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    {message.componentInfo.description}
-                  </span>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    组件 #{index + 1}
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs text-gray-400 dark:text-gray-500">
-                ID: {message.id.slice(0, 8)}...
-              </span>
-            </div>
+            {/* 移除头部信息，让组件内容直接展示 */}
             <div className="component-wrapper">
-              <div className="[&_.group]:!ml-0 [&_.group_.flex]:!items-start [&_.group_.ml-4]:!ml-2 [&_.md\\\\:-ml-12]:!ml-0">
-                {message.display}
-              </div>
+              {/* 移除了复杂的 CSS 选择器，因为已经简化了 BotCard 结构 */}
+              <div>{message.display}</div>
             </div>
           </div>
         ))}
         {/* 底部间距，确保最后一个组件能完全显示 */}
-        <div className="h-4"></div>
+        <div className="h-6"></div>
       </div>
     </div>
   );

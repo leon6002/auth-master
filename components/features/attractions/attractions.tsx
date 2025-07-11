@@ -30,11 +30,11 @@ export function Attractions({
 
   return (
     <div>
-      <div className="mb-2 flex max-w-screen-sm flex-col gap-2 overflow-scroll pb-4 text-sm sm:flex-row">
+      <div className="mb-4 grid grid-cols-1 items-start gap-4 pb-4 text-sm sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {attractions.map((attraction) => (
           <button
             key={attraction.scenicId}
-            className="flex cursor-pointer flex-col gap-2 rounded-lg border bg-secondary/20 p-2 text-left hover:bg-primary/10 dark:bg-zinc-800 sm:w-52"
+            className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border-0 bg-white p-0 text-left shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl dark:bg-gray-800"
             onClick={async () => {
               console.log(
                 `submitUserMessage from listAttraction, ${model}, ${attraction.scenicId}}`,
@@ -47,43 +47,74 @@ export function Attractions({
               setMessages((currentMessages) => [...currentMessages, response]);
             }}
           >
-            <div
-              className={`flex w-[180px] flex-row justify-center rounded-md bg-primary-foreground text-xl text-red-600 dark:bg-white/10`}
-            >
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-700 dark:to-gray-600">
               <Image
                 src={attraction.newPicUrl}
                 alt={attraction.scenicName}
-                className="rounded-md object-cover"
-                width={300}
-                height={200}
+                className="object-cover transition-all duration-500 group-hover:scale-110"
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
               />
-            </div>
-            <div className="flex w-full flex-col gap-y-2">
-              <div className="bold uppercase text-primary">
-                {attraction.scenicName}
-              </div>
-              <div className="flex items-center gap-1 pl-1 text-base text-primary/60">
+              {/* 渐变遮罩 */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+              {/* 价格标签 */}
+              <div className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 text-xs font-bold text-orange-600 shadow-lg backdrop-blur-sm dark:bg-gray-900/90 dark:text-orange-400">
                 ¥{attraction.salePrice}
               </div>
-              <div className="flex items-center gap-1 pl-1 text-xs text-zinc-500">
-                <FaLocationDot size={16} />
+            </div>
+            <div className="flex w-full flex-col gap-y-3 p-4">
+              {/* 景点名称 */}
+              <div
+                className="line-clamp-2 text-lg font-bold text-gray-800 dark:text-gray-100"
+                title={attraction.scenicName}
+              >
+                {attraction.scenicName}
+              </div>
+
+              {/* 地址信息 */}
+              <div className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                <FaLocationDot
+                  size={14}
+                  className="mt-0.5 flex-shrink-0 text-red-500"
+                />
                 <p
-                  className="line-clamp-1 w-full flex-1 text-ellipsis leading-5"
+                  className="line-clamp-1 flex-1 leading-5"
                   title={attraction.address}
                 >
                   {attraction.address}
                 </p>
               </div>
-              <div className="flex items-center gap-1 pl-1 text-xs text-zinc-500">
-                <MdAccessTime size={16} />
-                {attraction.bizTime}
+
+              {/* 营业时间 */}
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                <MdAccessTime
+                  size={14}
+                  className="flex-shrink-0 text-blue-500"
+                />
+                <span className="line-clamp-1">{attraction.bizTime}</span>
+              </div>
+
+              {/* 底部操作区域 */}
+              <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-3 dark:border-gray-700">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-xs text-gray-500">起价</span>
+                  <span className="text-lg font-bold text-orange-600 dark:text-orange-400">
+                    ¥{attraction.salePrice}
+                  </span>
+                </div>
+                <div className="rounded-full bg-blue-500 px-3 py-1 text-xs font-medium text-white transition-colors duration-200 group-hover:bg-blue-600">
+                  查看详情
+                </div>
               </div>
             </div>
           </button>
         ))}
       </div>
-      <div className="p-1 text-center text-xs text-zinc-500">
-        注意：景区价格可能有所浮动，以景区实际公告为准
+      <div className="mt-4 rounded-lg bg-amber-50 p-3 text-center dark:bg-amber-900/20">
+        <div className="flex items-center justify-center gap-2 text-xs text-amber-700 dark:text-amber-300">
+          <span>💡</span>
+          <span>景区价格可能有所浮动，以景区实际公告为准</span>
+        </div>
       </div>
     </div>
   );

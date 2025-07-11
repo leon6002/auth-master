@@ -129,3 +129,31 @@
 .highlight-wanderboat-primary {
   --tw-highlight-color: #fadb38;
 }
+
+/* 增强毛玻璃效果 */
+.glass-effect {
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect-dark {
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  background: rgba(17, 24, 39, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* 为不支持 backdrop-filter 的浏览器提供降级方案 */
+@supports not (backdrop-filter: blur()) {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .glass-effect-dark {
+    background: rgba(17, 24, 39, 0.8);
+  }
+}

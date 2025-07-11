@@ -91,23 +91,16 @@ export function BotMessage({
 
 export function BotCard({
   children,
-  showAvatar = true,
+  showAvatar = false, // 默认不显示头像
 }: {
   children: React.ReactNode;
   showAvatar?: boolean;
 }) {
   console.log("BotCard returning");
   return (
-    <div className="group relative flex items-start md:-ml-12">
-      <div
-        className={cn(
-          "flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm",
-          !showAvatar && "invisible",
-        )}
-      >
-        <IconOpenAI />
-      </div>
-      <div className="ml-4 flex-1 pl-2">{children}</div>
+    <div className="group relative flex items-start">
+      {/* 移除 OpenAI 图标和头像 */}
+      <div className="flex-1">{children}</div>
     </div>
   );
 }
