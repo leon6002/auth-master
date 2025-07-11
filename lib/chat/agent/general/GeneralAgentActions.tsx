@@ -10,7 +10,7 @@ import {
 
 import { createOpenAI, openai } from "@ai-sdk/openai";
 
-import { BotMessage } from "@/components/stocks";
+import { BotMessage } from "@/components/features/stocks";
 
 import {
   formatNumber,
@@ -20,7 +20,10 @@ import {
   getFormattedDate,
 } from "@/lib/utils";
 import { saveChat } from "@/app/actions";
-import { SpinnerMessage, UserMessage } from "@/components/stocks/message";
+import {
+  SpinnerMessage,
+  UserMessage,
+} from "@/components/features/stocks/message";
 import { Chat, Message } from "@/lib/types";
 import { auth } from "@/auth";
 import { AI } from "../../actions";

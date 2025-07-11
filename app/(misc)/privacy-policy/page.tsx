@@ -1,4 +1,4 @@
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import MaxWidthWrapper from "@/components/common/max-width-wrapper";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 

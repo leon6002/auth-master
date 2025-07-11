@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar";
-import Providers from "@/components/Providers";
+import Navbar from "@/components/layout/navbar";
+import Providers from "@/components/common/providers";
 import { cn, constructMetadata } from "@/lib/utils";
 // import { Inter } from "next/font/google";
 import "./globals.css";
@@ -8,7 +8,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "simplebar-react/dist/simplebar.min.css";
 
 import { Toaster } from "@/components/ui/toaster";
-import { APILoader } from "@/components/react-amap-api-loader";
+import { APILoader } from "@/components/features/maps/react-amap-api-loader";
 
 // const inter = Inter({ subsets: ["latin"] });
 

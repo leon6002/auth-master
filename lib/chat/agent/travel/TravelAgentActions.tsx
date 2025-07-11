@@ -3,20 +3,23 @@ import { getMutableAIState, streamUI, createStreamableValue } from "ai/rsc";
 
 import { createOpenAI } from "@ai-sdk/openai";
 
-import { BotCard, BotMessage } from "@/components/stocks";
+import { BotCard, BotMessage } from "@/components/features/stocks";
 
 import { z } from "zod";
 import { nanoid } from "@/lib/utils";
-import { SpinnerMessage, UserMessage } from "@/components/stocks/message";
+import {
+  SpinnerMessage,
+  UserMessage,
+} from "@/components/features/stocks/message";
 import { Chat } from "@/lib/types";
 import { AI } from "../../actions";
-import { AttractionsSkeleton } from "@/components/attractions/attractions-skeleton";
-import { Attraction, Attractions } from "@/components/attractions";
-import { Weather } from "@/components/weather";
-import { WeatherSkeleton } from "@/components/weather/weather-skeleton";
+import { AttractionsSkeleton } from "@/components/features/attractions/attractions-skeleton";
+import { Attraction, Attractions } from "@/components/features/attractions";
+import { Weather } from "@/components/features/weather";
+import { WeatherSkeleton } from "@/components/features/weather/weather-skeleton";
 import { format } from "date-fns";
 import { AVALIABLE_MODELS } from "@/routes";
-import { AttractionSkeleton } from "@/components/attractions/attraction-skeleton";
+import { AttractionSkeleton } from "@/components/features/attractions/attraction-skeleton";
 
 export const TravelAgentActions = async (content: string, model: string) => {
   if (!model) {

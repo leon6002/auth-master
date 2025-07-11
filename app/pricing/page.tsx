@@ -1,5 +1,5 @@
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import UpgradeButton from "@/components/UpgradeButton";
+import MaxWidthWrapper from "@/components/common/max-width-wrapper";
+import UpgradeButton from "@/components/common/buttons/upgrade-button";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
